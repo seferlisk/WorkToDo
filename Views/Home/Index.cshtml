@@ -3,81 +3,93 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="container mt-5">
+<div class="container-fluid p-5 bg-light text-center">
     <!-- Header Section -->
-    <header class="text-center mb-5">
-        <h1 class="display-4 font-weight-bold">To-Do Planner</h1>
-        <p class="lead text-muted">Efficient task management for enhanced productivity</p>
-        <div class="d-flex justify-content-center mt-3">
-            <a href="Account/Login" class="btn btn-primary btn-lg mr-2">Log In</a>
-            <a href="Account/Register" class="btn btn-outline-primary btn-lg">Sign Up</a>
+    <header>
+        <h1 class="display-3 font-weight-bold text-primary">To-Do Planner</h1>
+        <p class="lead font-weight-light">Your Ultimate Tool for Organized and Productive Workflows</p>
+        <div class="mt-4">
+            <a href="Account/Login" class="btn btn-primary btn-lg mr-3 shadow">Log In</a>
+            <a href="Account/Register" class="btn btn-outline-primary btn-lg shadow">Sign Up</a>
         </div>
     </header>
+</div>
 
-    <!-- Hero Section -->
-    <div class="row align-items-center mb-5">
+<!-- Hero Section -->
+<div class="container mt-5">
+    <div class="row align-items-center">
         <div class="col-md-6 text-center">
-            <img src="~/images/clean-hero-image.png" class="img-fluid" alt="Task planner illustration">
+            <img src="~/images/flashy-hero.png" class="img-fluid rounded shadow-lg" alt="Task planning illustration">
         </div>
         <div class="col-md-6">
-            <h2 class="font-weight-bold">Streamline Your Workflow</h2>
-            <p class="text-muted">Stay organized with a clear overview of daily tasks and team collaboration tools.</p>
-            <a href="Features" class="btn btn-secondary mt-3">Discover Features</a>
+            <h2 class="font-weight-bold text-dark">Take Control of Your Day</h2>
+            <p class="text-muted">Maximize your productivity with a structured daily planner that makes task management effortless and enjoyable.</p>
+            <a href="Features" class="btn btn-secondary btn-lg mt-3 shadow">Explore Features</a>
         </div>
-    </div>
-
-    <!-- Key Features Section -->
-    <section class="text-center mb-5">
-        <h3 class="mb-4 font-weight-bold">Key Features</h3>
-        <div class="row">
-            <div class="col-md-4">
-                <h5>Task Management</h5>
-                <p class="text-muted">Plan, organize, and manage your daily tasks effortlessly.</p>
-            </div>
-            <div class="col-md-4">
-                <h5>Collaboration</h5>
-                <p class="text-muted">Work together with your team efficiently in real-time.</p>
-            </div>
-            <div class="col-md-4">
-                <h5>Insights</h5>
-                <p class="text-muted">Visualize progress and productivity with intuitive reports.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Call to Action -->
-    <div class="text-center mb-5">
-        <h4 class="font-weight-bold">Start optimizing your workflow today</h4>
-        <a href="Account/Register" class="btn btn-primary btn-lg mt-3">Get Started</a>
     </div>
 </div>
 
-<!-- Minimal CSS Styles -->
+<!-- Features Section -->
+<section class="container my-5">
+    <h2 class="text-center font-weight-bold text-dark mb-4">Why Choose To-Do Planner?</h2>
+    <div class="row text-center">
+        <div class="col-md-4 mb-4">
+            <div class="p-4 bg-primary text-white rounded shadow-lg">
+                <i class="fas fa-tasks fa-3x mb-3"></i>
+                <h5 class="font-weight-bold">Advanced Task Management</h5>
+                <p>Keep track of tasks with a simple, effective interface to prioritize, delegate, and complete tasks on time.</p>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="p-4 bg-success text-white rounded shadow-lg">
+                <i class="fas fa-users fa-3x mb-3"></i>
+                <h5 class="font-weight-bold">Team Collaboration</h5>
+                <p>Coordinate seamlessly with team members, share updates, and stay aligned on your goals.</p>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="p-4 bg-info text-white rounded shadow-lg">
+                <i class="fas fa-chart-line fa-3x mb-3"></i>
+                <h5 class="font-weight-bold">Insightful Analytics</h5>
+                <p>Get visual insights into your productivity trends to improve task management and time efficiency.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action -->
+<div class="container text-center my-5">
+    <h3 class="font-weight-bold text-dark">Ready to Transform Your Workflow?</h3>
+    <a href="Account/Register" class="btn btn-primary btn-lg mt-4 shadow">Get Started</a>
+</div>
+
+<!-- Flashy CSS Styles -->
 <style>
-    .container {
-        max-width: 900px;
+    .container-fluid {
+        background: linear-gradient(135deg, #6a11cb, #2575fc);
+        color: white;
     }
 
-    .display-4 {
-        font-size: 2.8rem;
+    .display-3 {
+        font-size: 3.5rem;
     }
 
     .lead {
+        font-size: 1.4rem;
+        font-weight: 300;
+    }
+
+    .btn-primary, .btn-secondary {
+        padding: 0.75rem 1.5rem;
         font-size: 1.2rem;
-        color: #6c757d;
     }
 
-    h5 {
-        font-size: 1.1rem;
-        font-weight: 600;
+    .bg-primary, .bg-success, .bg-info {
+        border-radius: 0.5rem;
+        padding: 1.5rem;
     }
 
-    .btn-primary {
-        background-color: #007bff;
-        border: none;
-    }
-
-    .text-muted {
-        color: #6c757d;
+    i.fa-3x {
+        margin-bottom: 1rem;
     }
 </style>
