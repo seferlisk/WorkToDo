@@ -18,6 +18,11 @@ namespace WorkToDo.Controllers
             return View();
         }
 
+        public IActionResult Features()
+        {
+            return View();
+        }
+
         public IActionResult Privacy()
         {
             return View();
