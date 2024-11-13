@@ -9,7 +9,8 @@
         <h1 class="display-3 font-weight-bold text-primary">To-Do Planner</h1>
         <p class="lead font-weight-light">Your Ultimate Tool for Organized and Productive Workflows</p>
         <div class="mt-4">
-            <a href="Account/Login" class="btn btn-primary btn-lg mr-3 shadow">Log In</a>
+            <a asp-area="Identity" asp-page="/Account/Login" class="btn btn-primary btn-lg mr-3 shadow">Log In</a>
+            @* <a href="Account/Login" class="btn btn-primary btn-lg mr-3 shadow">Log In</a> *@
             <a href="Account/Register" class="btn btn-outline-primary btn-lg shadow">Sign Up</a>
         </div>
     </header>
