@@ -10,8 +10,8 @@
         <p class="lead font-weight-light">Your Ultimate Tool for Organized and Productive Workflows</p>
         <div class="mt-4">
             <a asp-area="Identity" asp-page="/Account/Login" class="btn btn-primary btn-lg mr-3 shadow">Log In</a>
-            @* <a href="Account/Login" class="btn btn-primary btn-lg mr-3 shadow">Log In</a> *@
-            <a href="Account/Register" class="btn btn-outline-primary btn-lg shadow">Sign Up</a>
+            <a asp-area="Identity" asp-page="/Account/Register" class="btn btn-outline-primary btn-lg shadow">Register</a>
+            @* <a href="Account/Register" class="btn btn-outline-primary btn-lg shadow">Sign Up</a> *@
         </div>
     </header>
 </div>
@@ -61,7 +61,8 @@
 <!-- Call to Action -->
 <div class="container text-center my-5">
     <h3 class="font-weight-bold text-dark">Ready to Transform Your Workflow?</h3>
-    <a href="Account/Register" class="btn btn-primary btn-lg mt-4 shadow">Get Started</a>
+    <a asp-area="Identity" asp-page="/Account/Register" class="btn btn-primary btn-lg mt-4 shadow">Get Started</a>
+    @* <a href="Account/Register" class="btn btn-primary btn-lg mt-4 shadow">Get Started</a> *@
 </div>
 
 <!-- Flashy CSS Styles -->
