@@ -9,5 +9,13 @@ namespace WorkToDo.Data
             : base(options)
         {
         }
+
+        public DbSet<Task> Category { get; set; }
+        public DbSet<Task> Comment { get; set; }
+        public DbSet<Task> ErrorViewModel { get; set; }
+        public DbSet<Task> Project { get; set; }
+
+        public DbSet<Task> Task { get; set; }
+        public DbSet<Task> User { get; set; }
     }
 }
