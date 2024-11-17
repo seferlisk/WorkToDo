@@ -6,7 +6,7 @@
         public string ProjectName { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
-        public ICollection<Task> Tasks { get; set; } // Navigation property
+        public ICollection<Assignment> Tasks { get; set; } // Navigation property
     }
 
 }

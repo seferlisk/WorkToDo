@@ -1,6 +1,6 @@
 ﻿namespace WorkToDo.Models
 {
-    public class Task
+    public class Assignment
     {
         public int TaskId { get; set; }
         public string Title { get; set; }

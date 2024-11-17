@@ -5,7 +5,7 @@
         public int CategoryId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public ICollection<Task> Tasks { get; set; } // Navigation property
+        public ICollection<Assignment> Assignments { get; set; } // Navigation property
     }
 
 }

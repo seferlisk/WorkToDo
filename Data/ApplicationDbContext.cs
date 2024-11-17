@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using WorkToDo.Models;
 
 namespace WorkToDo.Data
 {
@@ -10,12 +11,12 @@ namespace WorkToDo.Data
         {
         }
 
-        public DbSet<Task> Category { get; set; }
-        public DbSet<Task> Comment { get; set; }
-        public DbSet<Task> ErrorViewModel { get; set; }
-        public DbSet<Task> Project { get; set; }
+        public DbSet<Category> Category { get; set; }
+        public DbSet<Comment> Comment { get; set; }
+        public DbSet<ErrorViewModel> ErrorViewModel { get; set; }
+        public DbSet<Project> Project { get; set; }
 
-        public DbSet<Task> Task { get; set; }
-        public DbSet<Task> User { get; set; }
+        public DbSet<Assignment> Assignment { get; set; }
+        public DbSet<User> User { get; set; }
     }
 }
