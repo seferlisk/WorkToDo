@@ -1,4 +1,4 @@
-﻿@* @model IEnumerable<WorkToDo.Models.Task>
+﻿@model IEnumerable<WorkToDo.Models.Assignment>
 @{
     ViewData["Title"] = "My Tasks";
 }
@@ -25,7 +25,11 @@
                             <p class="card-text text-muted">
                                 @if (task.Description.Length > 100)
                                 {
-                                    @task.Description.Substring(0, 100) + "...";
+                                <p class="card-text text-muted">
+                                        @((task.Description.Length > 100 ? task.Description.Substring(0, 100) + "..." : task.Description))
+                                </p>
+
+
                                 }
                                 else
                                 {
@@ -68,4 +72,3 @@
         font-size: 0.85rem;
     }
 </style>
- *@
