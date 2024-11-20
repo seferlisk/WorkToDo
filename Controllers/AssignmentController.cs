@@ -5,11 +5,11 @@ using WorkToDo.Data;
 
 namespace WorkToDo.Controllers
 {
-    public class TaskController : Controller
+    public class AssignmentController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public TaskController(ApplicationDbContext context)
+        public AssignmentController(ApplicationDbContext context)
         {
             _context = context;
         }
@@ -25,6 +25,26 @@ namespace WorkToDo.Controllers
                 .ToList();
 
             return View(tasks);
+        }
+
+        // GET: Assignments/Create
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        // POST: Assignments/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Create(Assignment assignment)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Assignment.Add(assignment);
+                _context.SaveChanges();
+                return RedirectToAction(nameof(Index));
+            }
+            return View(assignment);
         }
 
         // Additional actions for Create, Edit, Delete, etc., can be added here
