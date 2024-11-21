@@ -1,10 +1,17 @@
-﻿namespace WorkToDo.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace WorkToDo.Models
 {
     public class Assignment
     {
         public int TaskId { get; set; }
         public string Title { get; set; }
+
+        [Required]
+        [MaxLength(500)]
         public string Description { get; set; }
+
+        [Required]
         public DateTime DueDate { get; set; }
         public bool IsCompleted { get; set; }
         public PriorityLevel Priority { get; set; }
