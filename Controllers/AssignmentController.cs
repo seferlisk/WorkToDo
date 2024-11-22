@@ -2,6 +2,7 @@
 using System.Linq;
 using WorkToDo.Models;
 using WorkToDo.Data;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.Blazor;
 
 namespace WorkToDo.Controllers
 {
@@ -42,7 +43,8 @@ namespace WorkToDo.Controllers
             {
                 _context.Assignment.Add(assignment);
                 _context.SaveChanges();
-                return RedirectToAction(nameof(Index));
+                //return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Details), new { id = assignment.TaskId });
             }
             return View(assignment);
         }
