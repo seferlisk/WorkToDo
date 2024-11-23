@@ -17,6 +17,12 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
 
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.Cookie.SecurePolicy = CookieSecurePolicy.Always; // Ensure cookies are sent over HTTPS only
+    options.Cookie.SameSite = SameSiteMode.Strict; // Recommended for user session cookies
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

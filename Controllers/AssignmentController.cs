@@ -49,6 +49,17 @@ namespace WorkToDo.Controllers
             return View(assignment);
         }
 
+        public IActionResult Details(int id)
+        {
+            var assignment = _context.Assignment.FirstOrDefault(a => a.TaskId == id);
+            if (assignment == null)
+            {
+                return NotFound();
+            }
+
+            return View(assignment);
+        }
+
         // Additional actions for Create, Edit, Delete, etc., can be added here
     }
 }
