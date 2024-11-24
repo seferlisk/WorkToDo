@@ -3,6 +3,7 @@ using System.Linq;
 using WorkToDo.Models;
 using WorkToDo.Data;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.Blazor;
+using WorkToDo.DTO;
 
 namespace WorkToDo.Controllers
 {
@@ -37,16 +38,31 @@ namespace WorkToDo.Controllers
         // POST: Assignments/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Assignment assignment)
+        public IActionResult Create(CreateAssignmentDto dto)
         {
             if (ModelState.IsValid)
             {
+                // Convert string to PriorityLevel enum
+                if (!Enum.TryParse(dto.Priority, out PriorityLevel priority))
+                {
+                    ModelState.AddModelError("Priority", "Invalid priority level.");
+                    return View(dto);
+                }
+
+                var assignment = new Assignment
+                {
+                    Title = dto.Title,
+                    Description = dto.Description,
+                    DueDate = dto.DueDate,
+                    Priority = priority, // Map to enum
+                    IsCompleted = false // Default value
+                };
+
                 _context.Assignment.Add(assignment);
                 _context.SaveChanges();
-                //return RedirectToAction(nameof(Index));
                 return RedirectToAction(nameof(Details), new { id = assignment.TaskId });
             }
-            return View(assignment);
+            return View(dto);
         }
 
         public IActionResult Details(int id)

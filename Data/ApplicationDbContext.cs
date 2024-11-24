@@ -18,5 +18,16 @@ namespace WorkToDo.Data
 
         public DbSet<Assignment> Assignment { get; set; }
         public DbSet<User> User { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Assignment>(entity =>
+            {
+                entity.HasKey(e => e.TaskId); // Explicitly set TaskId as the primary key
+            });
+        }
+
     }
 }
