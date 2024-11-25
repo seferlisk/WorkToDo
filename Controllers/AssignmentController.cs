@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 using WorkToDo.Models;
 using WorkToDo.Data;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.Blazor;
@@ -75,6 +76,60 @@ namespace WorkToDo.Controllers
 
             return View(assignment);
         }
+
+        public IActionResult DebugPrimaryKey()
+        {
+            var entityType = _context.Model.FindEntityType(typeof(Assignment));
+            var primaryKey = entityType.FindPrimaryKey();
+
+            // Output the primary key properties
+            foreach (var property in primaryKey.Properties)
+            {
+                Console.WriteLine($"Primary Key: {property.Name}");
+            }
+
+            return Ok("Primary key information printed to console.");
+        }
+
+        public IActionResult TestPrimaryKeyBehavior()
+        {
+            try
+            {
+                var assignment1 = new Assignment
+                {
+                    TaskId = 1, // Explicit ID
+                    Title = "Assignment 1",
+                    Description = "Test Description",
+                    DueDate = DateTime.Now,
+                    Priority = PriorityLevel.Medium
+                };
+
+                var assignment2 = new Assignment
+                {
+                    TaskId = 1, // Duplicate ID to test PK constraint
+                    Title = "Assignment 2",
+                    Description = "Another Test Description",
+                    DueDate = DateTime.Now,
+                    Priority = PriorityLevel.High
+                };
+
+                // Add first assignment
+                _context.Assignment.Add(assignment1);
+                _context.SaveChanges();
+
+                // Add duplicate assignment
+                _context.Assignment.Add(assignment2);
+                _context.SaveChanges(); // Should throw an exception
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+                return BadRequest($"Error: {ex.Message}");
+            }
+
+            return Ok("Primary key test completed.");
+        }
+
 
         // Additional actions for Create, Edit, Delete, etc., can be added here
     }
