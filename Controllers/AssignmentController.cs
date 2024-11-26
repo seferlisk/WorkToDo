@@ -78,60 +78,96 @@ namespace WorkToDo.Controllers
             return View(assignment);
         }
 
-        public IActionResult DebugPrimaryKey()
+        // GET: Assignment/Edit/5
+        public async Task<IActionResult> Edit(int? id)
         {
-            var entityType = _context.Model.FindEntityType(typeof(Assignment));
-            var primaryKey = entityType.FindPrimaryKey();
-
-            // Output the primary key properties
-            foreach (var property in primaryKey.Properties)
+            if (id == null)
             {
-                Console.WriteLine($"Primary Key: {property.Name}");
+                return BadRequest();
             }
 
-            return Ok("Primary key information printed to console.");
+            var assignment = await _context.Assignments.FindAsync(id);
+            if (assignment == null)
+            {
+                return NotFound();
+            }
+
+            // Optionally, map to a DTO if using one
+            var editDto = new EditAssignmentDto
+            {
+                TaskId = assignment.TaskId,
+                Title = assignment.Title,
+                Description = assignment.Description,
+                DueDate = assignment.DueDate,
+                Priority = assignment.Priority.ToString(),
+                AssignedTo = assignment.AssignedTo,
+                CategoryId = assignment.CategoryId
+            };
+
+            return View(editDto);
         }
 
-        public IActionResult TestPrimaryKeyBehavior()
+        // POST: Assignment/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, EditAssignmentDto dto)
         {
-            try
+            if (id != dto.TaskId)
             {
-                var assignment1 = new Assignment
-                {
-                    TaskId = 1, // Explicit ID
-                    Title = "Assignment 1",
-                    Description = "Test Description",
-                    DueDate = DateTime.Now,
-                    Priority = PriorityLevel.Medium
-                };
-
-                var assignment2 = new Assignment
-                {
-                    TaskId = 1, // Duplicate ID to test PK constraint
-                    Title = "Assignment 2",
-                    Description = "Another Test Description",
-                    DueDate = DateTime.Now,
-                    Priority = PriorityLevel.High
-                };
-
-                // Add first assignment
-                _context.Assignment.Add(assignment1);
-                _context.SaveChanges();
-
-                // Add duplicate assignment
-                _context.Assignment.Add(assignment2);
-                _context.SaveChanges(); // Should throw an exception
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error: {ex.Message}");
-                return BadRequest($"Error: {ex.Message}");
+                return BadRequest();
             }
 
-            return Ok("Primary key test completed.");
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var assignment = await _context.Assignments.FindAsync(id);
+                    if (assignment == null)
+                    {
+                        return NotFound();
+                    }
+
+                    // Convert Priority string to PriorityLevel enum
+                    if (!Enum.TryParse(dto.Priority, out PriorityLevel priority))
+                    {
+                        ModelState.AddModelError("Priority", "Invalid priority level.");
+                        return View(dto);
+                    }
+
+                    // Update properties
+                    assignment.Title = dto.Title;
+                    assignment.Description = dto.Description;
+                    assignment.DueDate = dto.DueDate;
+                    assignment.Priority = priority;
+                    assignment.AssignedTo = dto.AssignedTo;
+                    assignment.CategoryId = dto.CategoryId;
+
+                    _context.Update(assignment);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!AssignmentExists(dto.TaskId))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Details), new { id = dto.TaskId });
+            }
+            return View(dto);
+        }
+
+        // Helper method to check if Assignment exists
+        private bool AssignmentExists(int id)
+        {
+            return _context.Assignments.Any(e => e.TaskId == id);
         }
 
 
-        // Additional actions for Create, Edit, Delete, etc., can be added here
+
     }
 }
