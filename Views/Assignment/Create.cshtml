@@ -38,6 +38,12 @@
                         </select>
                         <span asp-validation-for="Priority" class="text-danger"></span>
                     </div>
+                                        
+                    <div class="form-floating mb-3">
+                        <input asp-for="AssignedTo" class="form-control" placeholder="Enter Assigned User" />
+                        <label asp-for="AssignedTo">Assigned To</label>
+                        <span asp-validation-for="AssignedTo" class="text-danger"></span>
+                    </div>
 
                     <div class="text-center">
                         <button type="submit" class="btn btn-primary btn-lg shadow">Add Assignment</button>

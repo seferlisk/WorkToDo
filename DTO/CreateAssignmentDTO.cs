@@ -16,6 +16,8 @@ namespace WorkToDo.DTO
 
         [Required]
         public string Priority { get; set; }
+
+        public string AssignedTo { get; set; } = string.Empty;
     }
 
 }

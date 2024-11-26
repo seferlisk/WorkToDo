@@ -13,7 +13,6 @@ namespace WorkToDo.Data
 
         public DbSet<Category> Category { get; set; }
         public DbSet<Comment> Comment { get; set; }
-        public DbSet<ErrorViewModel> ErrorViewModel { get; set; }
         public DbSet<Project> Project { get; set; }
 
         public DbSet<Assignment> Assignment { get; set; }

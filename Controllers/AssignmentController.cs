@@ -56,7 +56,8 @@ namespace WorkToDo.Controllers
                     Description = dto.Description,
                     DueDate = dto.DueDate,
                     Priority = priority, // Map to enum
-                    IsCompleted = false // Default value
+                    IsCompleted = false, // Default value
+                    AssignedTo = dto.AssignedTo
                 };
 
                 _context.Assignment.Add(assignment);
