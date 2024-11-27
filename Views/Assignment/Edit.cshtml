@@ -1,0 +1,74 @@
+﻿@model WorkToDo.DTO.EditAssignmentDTO
+
+@{
+    ViewData["Title"] = "Edit Assignment";
+}
+
+<div class="container mt-5">
+    <h1 class="text-primary text-center">Edit Assignment</h1>
+    <div class="row justify-content-center mt-4">
+        <div class="col-md-8">
+            <div class="card shadow-lg p-4">
+                <form asp-action="Edit" method="post">
+                    <input type="hidden" asp-for="TaskId" />
+
+                    <div class="form-floating mb-3">
+                        <input asp-for="Title" class="form-control" placeholder="Enter Title" />
+                        <label asp-for="Title">Title</label>
+                        <span asp-validation-for="Title" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <textarea asp-for="Description" class="form-control" placeholder="Enter Description" style="height: 150px;"></textarea>
+                        <label asp-for="Description">Description</label>
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <input asp-for="DueDate" class="form-control" type="date" />
+                        <label asp-for="DueDate">Due Date</label>
+                        <span asp-validation-for="DueDate" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Priority" class="form-label">Priority</label>
+                        <select asp-for="Priority" class="form-select">
+                            <option value="Low">Low</option>
+                            <option value="Medium">Medium</option>
+                            <option value="High">High</option>
+                            <option value="Urgent">Urgent</option>
+                        </select>
+                        <span asp-validation-for="Priority" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <input asp-for="AssignedTo" class="form-control" placeholder="Enter Assigned User" />
+                        <label asp-for="AssignedTo">Assigned To</label>
+                        <span asp-validation-for="AssignedTo" class="text-danger"></span>
+                    </div>
+
+                    <!-- Optionally, add a dropdown for Category if needed -->
+                    <div class="mb-3">
+                        <label asp-for="CategoryId" class="form-label">Category</label>
+                        <select asp-for="CategoryId" class="form-select">
+                            @foreach (var category in ViewBag.Categories as List<WorkToDo.Models.Category>)
+                            {
+                                <option value="@category.CategoryId" @(category.Id == Model.CategoryId ? "selected" : "")>@category.Name</option>
+                            }
+                        </select>
+                        <span asp-validation-for="CategoryId" class="text-danger"></span>
+                    </div>
+
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary btn-lg shadow">Save Changes</button>
+                        <a asp-action="Index" class="btn btn-outline-secondary btn-lg shadow">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

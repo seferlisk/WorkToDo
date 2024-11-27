@@ -86,14 +86,14 @@ namespace WorkToDo.Controllers
                 return BadRequest();
             }
 
-            var assignment = await _context.Assignments.FindAsync(id);
+            var assignment = await _context.Assignment.FindAsync(id);
             if (assignment == null)
             {
                 return NotFound();
             }
 
-            // Optionally, map to a DTO if using one
-            var editDto = new EditAssignmentDto
+            // Map to a DTO
+            var editDto = new EditAssignmentDTO
             {
                 TaskId = assignment.TaskId,
                 Title = assignment.Title,
@@ -104,13 +104,16 @@ namespace WorkToDo.Controllers
                 CategoryId = assignment.CategoryId
             };
 
+            // Retrieve categories for the dropdown
+            ViewBag.Categories = await _context.Category.ToListAsync();
+
             return View(editDto);
         }
 
         // POST: Assignment/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, EditAssignmentDto dto)
+        public async Task<IActionResult> Edit(int id, EditAssignmentDTO dto)
         {
             if (id != dto.TaskId)
             {
@@ -121,7 +124,7 @@ namespace WorkToDo.Controllers
             {
                 try
                 {
-                    var assignment = await _context.Assignments.FindAsync(id);
+                    var assignment = await _context.Assignment.FindAsync(id);
                     if (assignment == null)
                     {
                         return NotFound();
@@ -131,6 +134,8 @@ namespace WorkToDo.Controllers
                     if (!Enum.TryParse(dto.Priority, out PriorityLevel priority))
                     {
                         ModelState.AddModelError("Priority", "Invalid priority level.");
+                        // Repopulate categories before returning view
+                        ViewBag.Categories = await _context.Category.ToListAsync();
                         return View(dto);
                     }
 
@@ -158,13 +163,17 @@ namespace WorkToDo.Controllers
                 }
                 return RedirectToAction(nameof(Details), new { id = dto.TaskId });
             }
+
+            // If model state is invalid, repopulate categories
+            ViewBag.Categories = await _context.Category.ToListAsync();
+
             return View(dto);
         }
 
         // Helper method to check if Assignment exists
         private bool AssignmentExists(int id)
         {
-            return _context.Assignments.Any(e => e.TaskId == id);
+            return _context.Assignment.Any(e => e.TaskId == id);
         }
 
 
