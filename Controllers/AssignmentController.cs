@@ -41,6 +41,11 @@ namespace WorkToDo.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create(CreateAssignmentDto dto)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(dto); // Return the view with validation errors
+            }
+
             if (ModelState.IsValid)
             {
                 // Convert string to PriorityLevel enum

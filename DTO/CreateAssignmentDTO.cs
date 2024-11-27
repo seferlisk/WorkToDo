@@ -1,4 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+using WorkToDo.Helper;
+
 
 namespace WorkToDo.DTO
 {
@@ -12,6 +15,8 @@ namespace WorkToDo.DTO
         public string Description { get; set; }
 
         [Required]
+        [DataType(DataType.Date)]
+        [DateNotPast(ErrorMessage = "The due date cannot be in the past.")]
         public DateTime DueDate { get; set; }
 
         [Required]
