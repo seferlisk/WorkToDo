@@ -24,6 +24,12 @@
                 <li class="list-group-item">
                     <strong>Status:</strong> @(Model.IsCompleted ? "Completed" : "Incomplete")
                 </li>
+                <li class="list-group-item">
+                    <strong>Assigned To:</strong> @Model.AssignedTo
+                </li>
+               @*  <li class="list-group-item">
+                    <strong>Category:</strong> @Model.Category?.Name
+                </li> *@
             </ul>
         </div>
         <div class="card-footer text-end">
@@ -32,3 +38,14 @@
         </div>
     </div>
 </div>
+
+<style>
+    .card-title {
+        font-weight: bold;
+        color: #333;
+    }
+
+    .btn {
+        font-size: 0.85rem;
+    }
+</style>

@@ -47,7 +47,7 @@
                         <span asp-validation-for="AssignedTo" class="text-danger"></span>
                     </div>
 
-                    <!-- Optionally, add a dropdown for Category if needed -->
+                    @* <!-- Optional, dropdown for Category -->
                     <div class="mb-3">
                         <label asp-for="CategoryId" class="form-label">Category</label>
                         <select asp-for="CategoryId" class="form-select">
@@ -57,7 +57,7 @@
                             }
                         </select>
                         <span asp-validation-for="CategoryId" class="text-danger"></span>
-                    </div>
+                    </div> *@
 
                     <div class="text-center">
                         <button type="submit" class="btn btn-primary btn-lg shadow">Save Changes</button>

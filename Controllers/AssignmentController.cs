@@ -17,7 +17,7 @@ namespace WorkToDo.Controllers
             _context = context;
         }
 
-        // GET: Tasks
+        // GET: Assignment
         public IActionResult Index()
         {
             // Retrieve all tasks assigned to the logged-in user
@@ -101,11 +101,11 @@ namespace WorkToDo.Controllers
                 DueDate = assignment.DueDate,
                 Priority = assignment.Priority.ToString(),
                 AssignedTo = assignment.AssignedTo,
-                CategoryId = assignment.CategoryId
+                //CategoryId = assignment.CategoryId
             };
 
             // Retrieve categories for the dropdown
-            ViewBag.Categories = await _context.Category.ToListAsync();
+            //ViewBag.Categories = await _context.Category.ToListAsync();
 
             return View(editDto);
         }
@@ -145,7 +145,7 @@ namespace WorkToDo.Controllers
                     assignment.DueDate = dto.DueDate;
                     assignment.Priority = priority;
                     assignment.AssignedTo = dto.AssignedTo;
-                    assignment.CategoryId = dto.CategoryId;
+                    //assignment.CategoryId = dto.CategoryId;
 
                     _context.Update(assignment);
                     await _context.SaveChangesAsync();
@@ -165,7 +165,7 @@ namespace WorkToDo.Controllers
             }
 
             // If model state is invalid, repopulate categories
-            ViewBag.Categories = await _context.Category.ToListAsync();
+            //ViewBag.Categories = await _context.Category.ToListAsync();
 
             return View(dto);
         }
