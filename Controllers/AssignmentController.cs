@@ -23,7 +23,7 @@ namespace WorkToDo.Controllers
             // Retrieve all tasks assigned to the logged-in user
             var userId = User.Identity?.Name; // Assuming "Name" is the username or email
             var tasks = _context.Assignment
-                .Where(t => t.AssignedTo == userId)
+                //.Where(t => t.AssignedTo == userId)
                 .OrderBy(t => t.DueDate)
                 .ToList();
 
