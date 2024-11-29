@@ -1,0 +1,29 @@
+﻿@model WorkToDo.Models.Assignment
+
+@{
+    ViewData["Title"] = "Delete Assignment";
+}
+
+<div class="container mt-5">
+    <div class="card shadow-lg">
+        <div class="card-header bg-danger text-white">
+            <h2>Delete Assignment</h2>
+        </div>
+        <div class="card-body">
+            <p>Are you sure you want to delete the following assignment?</p>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item"><strong>Title:</strong> @Model.Title</li>
+                <li class="list-group-item"><strong>Description:</strong> @Model.Description</li>
+                <li class="list-group-item"><strong>Due Date:</strong> @Model.DueDate.ToString("MMMM dd, yyyy")</li>
+                <li class="list-group-item"><strong>Priority:</strong> @Model.Priority</li>
+                <li class="list-group-item"><strong>Assigned To:</strong> @Model.AssignedTo</li>
+            </ul>
+        </div>
+        <div class="card-footer text-end">
+            <form asp-action="Delete" asp-route-id="@Model.TaskId" method="post">
+                <button type="submit" class="btn btn-danger">Delete</button>
+                <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+            </form>
+        </div>
+    </div>
+</div>

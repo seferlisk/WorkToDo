@@ -181,7 +181,40 @@ namespace WorkToDo.Controllers
             return _context.Assignment.Any(e => e.TaskId == id);
         }
 
+        // GET: Assignment/Delete/5
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return BadRequest();
+            }
 
+            var assignment = await _context.Assignment
+                .FirstOrDefaultAsync(m => m.TaskId == id);
+
+            if (assignment == null)
+            {
+                return NotFound();
+            }
+
+            return View(assignment);
+        }
+
+
+        // POST: Assignment/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var assignment = await _context.Assignment.FindAsync(id);
+            if (assignment != null)
+            {
+                _context.Assignment.Remove(assignment);
+                await _context.SaveChangesAsync();
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
 
     }
 }
