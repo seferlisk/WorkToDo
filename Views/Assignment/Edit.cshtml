@@ -4,6 +4,14 @@
     ViewData["Title"] = "Edit Assignment";
 }
 
+<div class="container-fluid p-5 bg-light text-center">
+    <!-- Header Section -->
+    <header>
+        <h1 class="display-3 font-weight-bold text-primary">Add a New Assignment</h1>
+        <p class="lead font-weight-light">Create and assign tasks effortlessly with priorities and deadlines.</p>
+    </header>
+</div>
+
 <div class="container mt-5">
     <h1 class="text-primary text-center">Edit Assignment</h1>
     <div class="row justify-content-center mt-4">
@@ -72,3 +80,29 @@
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }
+
+<!-- Styling -->
+<style>
+    .container-fluid {
+        background: linear-gradient(135deg, #6a11cb, #2575fc);
+        color: white;
+    }
+
+    .display-3 {
+        font-size: 3.5rem;
+    }
+
+    .lead {
+        font-size: 1.4rem;
+        font-weight: 300;
+    }
+
+    .btn-primary, .btn-outline-secondary {
+        padding: 0.75rem 1.5rem;
+        font-size: 1.2rem;
+    }
+
+    .form-floating label {
+        font-weight: 500;
+    }
+</style>

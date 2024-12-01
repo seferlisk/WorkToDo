@@ -4,30 +4,42 @@
     ViewData["Title"] = "Add Assignment";
 }
 
+<div class="container-fluid p-5 bg-light text-center">
+    <!-- Header Section -->
+    <header>
+        <h1 class="display-3 font-weight-bold text-primary">Add a New Assignment</h1>
+        <p class="lead font-weight-light">Create and assign tasks effortlessly with priorities and deadlines.</p>
+    </header>
+</div>
+
+<!-- Form Section -->
 <div class="container mt-5">
-    <h1 class="text-primary text-center">Add a New Assignment</h1>
-    <div class="row justify-content-center mt-4">
+    <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card shadow-lg p-4">
                 <form asp-action="Create" method="post">
+                    <!-- Title -->
                     <div class="form-floating mb-3">
                         <input asp-for="Title" class="form-control" placeholder="Enter Title" />
                         <label asp-for="Title">Title</label>
                         <span asp-validation-for="Title" class="text-danger"></span>
                     </div>
 
+                    <!-- Description -->
                     <div class="form-floating mb-3">
                         <textarea asp-for="Description" class="form-control" placeholder="Enter Description" style="height: 150px;"></textarea>
                         <label asp-for="Description">Description</label>
                         <span asp-validation-for="Description" class="text-danger"></span>
                     </div>
 
+                    <!-- Due Date -->
                     <div class="form-floating mb-3">
                         <input asp-for="DueDate" class="form-control" type="date" />
                         <label asp-for="DueDate">Due Date</label>
                         <span asp-validation-for="DueDate" class="text-danger"></span>
                     </div>
 
+                    <!-- Priority -->
                     <div class="mb-3">
                         <label asp-for="Priority" class="form-label">Priority</label>
                         <select asp-for="Priority" class="form-select">
@@ -38,16 +50,22 @@
                         </select>
                         <span asp-validation-for="Priority" class="text-danger"></span>
                     </div>
-                                        
+
+                    <!-- Assigned To -->
                     <div class="form-floating mb-3">
                         <input asp-for="AssignedTo" class="form-control" placeholder="Enter Assigned User" />
                         <label asp-for="AssignedTo">Assigned To</label>
                         <span asp-validation-for="AssignedTo" class="text-danger"></span>
                     </div>
 
+                    <!-- Buttons -->
                     <div class="text-center">
-                        <button type="submit" class="btn btn-primary btn-lg shadow">Add Assignment</button>
-                        <a asp-action="Index" class="btn btn-outline-secondary btn-lg shadow">Cancel</a>
+                        <button type="submit" class="btn btn-primary btn-lg shadow">
+                            <i class="bi bi-plus-circle"></i> Add Assignment
+                        </button>
+                        <a asp-action="Index" class="btn btn-outline-secondary btn-lg shadow">
+                            <i class="bi bi-arrow-left-circle"></i> Cancel
+                        </a>
                     </div>
                 </form>
             </div>
@@ -58,3 +76,29 @@
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }
+
+<!-- Styling -->
+<style>
+    .container-fluid {
+        background: linear-gradient(135deg, #6a11cb, #2575fc);
+        color: white;
+    }
+
+    .display-3 {
+        font-size: 3.5rem;
+    }
+
+    .lead {
+        font-size: 1.4rem;
+        font-weight: 300;
+    }
+
+    .btn-primary, .btn-outline-secondary {
+        padding: 0.75rem 1.5rem;
+        font-size: 1.2rem;
+    }
+
+    .form-floating label {
+        font-weight: 500;
+    }
+</style>

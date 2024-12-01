@@ -1,23 +1,28 @@
 ﻿@model IEnumerable<WorkToDo.Models.Assignment>
 @using WorkToDo.Models
 
-<div class="container mt-5">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1 class="text-primary display-6 fw-bold">Assignments</h1>
-        <a asp-action="Create" class="btn btn-primary btn-lg shadow-sm">
-            <i class="bi bi-plus-circle"></i> Add New Assignment
-        </a>
-    </div>
+<div class="container-fluid p-5 bg-light text-center">
+    <!-- Header Section -->
+    <header>
+        <h1 class="display-3 font-weight-bold text-primary">Assignments</h1>
+        <p class="lead font-weight-light">Manage your tasks effortlessly with priority-focused organization.</p>
+        <div class="mt-4">
+            <a asp-action="Create" class="btn btn-primary btn-lg shadow">Add New Assignment</a>
+        </div>
+    </header>
+</div>
 
+<!-- Assignments Section -->
+<div class="container mt-5">
     @if (!Model.Any())
     {
-        <div class="alert alert-info text-center shadow-sm">
-            <strong>No Assignments Found!</strong> Click <a asp-action="Create" class="alert-link">"Add New Assignment"</a> to create your first task.
+        <div class="alert alert-info text-center shadow-lg">
+            <strong>No Assignments Found!</strong> Click <a asp-action="Create" class="alert-link">"Add New Assignment"</a> to get started.
         </div>
     }
     else
     {
-        <table class="table table-hover align-middle shadow-sm">
+        <table class="table table-hover align-middle shadow-lg">
             <thead class="table-dark">
                 <tr>
                     <th scope="col">Title</th>
@@ -51,71 +56,40 @@
     }
 </div>
 
+<!-- Styling -->
 <style>
+    .container-fluid {
+        background: linear-gradient(135deg, #6a11cb, #2575fc);
+        color: white;
+    }
+
+    .display-3 {
+        font-size: 3.5rem;
+    }
+
+    .lead {
+        font-size: 1.4rem;
+        font-weight: 300;
+    }
+
     .table-danger {
-        background-color: #f8d7da !important; /* Highlight urgent tasks */
+        background-color: #f8d7da !important;
     }
 
     .table-hover tbody tr:hover {
         background-color: #f1f1f1;
     }
 
-    .btn-shadow {
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    .btn-primary, .btn-warning, .btn-danger {
+        padding: 0.5rem 1rem;
+        font-size: 1rem;
     }
 
     .alert {
-        font-size: 1.1rem;
+        font-size: 1.2rem;
+    }
+
+    .btn-shadow {
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
 </style>
-
-
-@* @model IEnumerable<WorkToDo.Models.Assignment>
-@using WorkToDo.Models
-
-<div class="container mt-5">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1 class="text-primary">Assignments</h1>
-        <a asp-action="Create" class="btn btn-primary shadow">Add New Assignment</a>
-    </div>
-
-    @if (!Model.Any())
-    {
-        <p>You have no assignments yet. Click "Add New Assignment" to create one.</p>
-    }
-    else
-    {
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>Title</th>
-                    <th>Due Date</th>
-                    <th>Priority</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var assignment in Model)
-                {
-                    <tr class="@(assignment.Priority == PriorityLevel.Urgent ? "table-danger" : "")">
-                        <td>@assignment.Title</td>
-                        <td>@assignment.DueDate.ToString("MMMM dd, yyyy")</td>
-                        <td>@assignment.Priority</td>
-                        <td>
-                            <a asp-action="Details" asp-route-id="@assignment.TaskId" class="btn btn-primary btn-sm">Details</a>
-                            <a asp-action="Edit" asp-route-id="@assignment.TaskId" class="btn btn-warning btn-sm">Edit</a>
-                            <a asp-action="Delete" asp-route-id="@assignment.TaskId" class="btn btn-danger btn-sm">Delete</a>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    }
-</div>
-
-<style>
-    .table-danger {
-        background-color: #f8d7da !important;
-    }
-</style>
- *@
