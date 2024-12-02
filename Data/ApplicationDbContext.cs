@@ -4,7 +4,7 @@ using WorkToDo.Models;
 
 namespace WorkToDo.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -14,9 +14,8 @@ namespace WorkToDo.Data
         public DbSet<Category> Category { get; set; }
         public DbSet<Comment> Comment { get; set; }
         public DbSet<Project> Project { get; set; }
-
         public DbSet<Assignment> Assignment { get; set; }
-        public DbSet<User> User { get; set; }
+        //public DbSet<ApplicationUser> User { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

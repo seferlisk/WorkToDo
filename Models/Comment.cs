@@ -8,7 +8,7 @@
         public int TaskId { get; set; } // Foreign key for Task
         public Assignment Task { get; set; }
         public int UserId { get; set; } // Foreign key for User
-        public User User { get; set; }
+        public ApplicationUser User { get; set; }
     }
 
 }

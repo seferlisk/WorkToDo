@@ -1,6 +1,7 @@
-﻿namespace WorkToDo.Models
+﻿using Microsoft.AspNetCore.Identity;
+namespace WorkToDo.Models
 {
-    public class User
+    public class ApplicationUser : IdentityUser
     {
         public int UserId { get; set; }
         public string Name { get; set; }
