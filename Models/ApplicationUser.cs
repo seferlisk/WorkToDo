@@ -5,6 +5,7 @@ namespace WorkToDo.Models
     {
        
         public ICollection<Assignment> AssignedTasks { get; set; } // Tasks assigned to the user
+
     }
 
 }
