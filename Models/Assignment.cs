@@ -15,8 +15,8 @@ namespace WorkToDo.Models
         public DateTime DueDate { get; set; }
         public bool IsCompleted { get; set; }
         public PriorityLevel Priority { get; set; }        
-        public int CategoryId { get; set; } // Foreign key for Category
-        public Category Category { get; set; }
+        public int? CategoryId { get; set; } // Foreign key for Category
+        public Category? Category { get; set; }
         public string AssignedTo { get; set; } // Link to User
     }
 

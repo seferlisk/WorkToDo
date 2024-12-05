@@ -23,9 +23,8 @@ namespace WorkToDo.DTO
         public string Priority { get; set; }
 
         public string AssignedTo { get; set; } = string.Empty;
-        
-        [Required]
-        public int CategoryId { get; set; }
+                
+        public int? CategoryId { get; set; }
     }
 
 }
