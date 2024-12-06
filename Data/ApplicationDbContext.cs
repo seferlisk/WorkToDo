@@ -25,6 +25,11 @@ namespace WorkToDo.Data
             {
                 entity.HasKey(e => e.TaskId); // Explicitly set TaskId as the primary key
             });
+
+            modelBuilder.Entity<Category>().HasData(
+                new Category { CategoryId = 1, Name = "Work", Description = "Work Description" },
+                new Category { CategoryId = 2, Name = "Personal", Description = "Personal Description" }
+            );
         }
 
     }

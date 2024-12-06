@@ -58,6 +58,24 @@
                         <span asp-validation-for="AssignedTo" class="text-danger"></span>
                     </div>
 
+                    <!-- Category -->
+                    <div class="mb-3">
+                        <label asp-for="CategoryId" class="form-label">Category</label>
+                        <select asp-for="CategoryId" class="form-select" id="categoryDropdown">
+                            <option value="" disabled selected>Select a category</option>
+                            @foreach (var category in ViewBag.Categories as IEnumerable<dynamic>)
+                            {
+                                <option value="@category.CategoryId" data-description="@category.Description">@category.Name</option>
+                            }
+                        </select>
+                        <span asp-validation-for="CategoryId" class="text-danger"></span>
+                    </div>
+
+                    <!-- Category Description -->
+                    <div class="mt-3">
+                        <p id="categoryDescription" class="text-muted"></p>
+                    </div>
+
                     <!-- Buttons -->
                     <div class="text-center">
                         <button type="submit" class="btn btn-primary btn-lg shadow">
@@ -75,6 +93,18 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const dropdown = document.getElementById("categoryDropdown");
+            const descriptionElement = document.getElementById("categoryDescription");
+
+            dropdown.addEventListener("change", function () {
+                const selectedOption = dropdown.options[dropdown.selectedIndex];
+                const description = selectedOption.getAttribute("data-description");
+                descriptionElement.textContent = description || "No description available.";
+            });
+        });
+    </script>
 }
 
 <!-- Styling -->
@@ -100,5 +130,10 @@
 
     .form-floating label {
         font-weight: 500;
+    }
+
+    #categoryDescription {
+        font-size: 1rem;
+        font-style: italic;
     }
 </style>

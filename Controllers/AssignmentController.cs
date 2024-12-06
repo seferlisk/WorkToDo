@@ -33,6 +33,13 @@ namespace WorkToDo.Controllers
         // GET: Assignments/Create
         public IActionResult Create()
         {
+            ViewBag.Categories = _context.Category.Select(c => new
+            {
+                c.CategoryId,
+                c.Name,
+                c.Description // Assuming Description exists in the Category model
+            }).ToList();
+
             return View();
         }
 
@@ -43,6 +50,7 @@ namespace WorkToDo.Controllers
         {
             if (!ModelState.IsValid)
             {
+                ViewBag.Categories = _context.Category.ToList(); // Reload categories if validation fails
                 return View(dto); // Return the view with validation errors
             }
 
@@ -62,7 +70,8 @@ namespace WorkToDo.Controllers
                     DueDate = dto.DueDate,
                     Priority = priority, // Map to enum
                     IsCompleted = false, // Default value
-                    AssignedTo = dto.AssignedTo
+                    AssignedTo = dto.AssignedTo,
+                    CategoryId = dto.CategoryId
                 };
 
                 _context.Assignment.Add(assignment);
