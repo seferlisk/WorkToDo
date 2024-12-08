@@ -1,11 +1,14 @@
-﻿namespace WorkToDo.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace WorkToDo.Models
 {
     public class Category
     {
         public int CategoryId { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public ICollection<Assignment> Assignments { get; set; } // Navigation property
+        [Required]
+        public string? Name { get; set; }
+        public string? Description { get; set; }
+        public ICollection<WorkItem>? WorkItems { get; set; } // Navigation property
     }
 
 }

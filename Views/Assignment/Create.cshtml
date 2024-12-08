@@ -63,7 +63,7 @@
                         <label asp-for="CategoryId" class="form-label">Category</label>
                         <select asp-for="CategoryId" class="form-select" id="categoryDropdown">
                             <option value="" disabled selected>Select a category</option>
-                            @foreach (var category in ViewBag.Categories as IEnumerable<dynamic>)
+                            @foreach (var category in Model.Categories)
                             {
                                 <option value="@category.CategoryId" data-description="@category.Description">@category.Name</option>
                             }

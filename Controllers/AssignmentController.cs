@@ -22,7 +22,7 @@ namespace WorkToDo.Controllers
         {
             // Retrieve all tasks assigned to the logged-in user
             var userId = User.Identity?.Name; // Assuming "Name" is the username or email
-            var tasks = _context.Assignment
+            var tasks = _context.WorkItem
                 //.Where(t => t.AssignedTo == userId)
                 .OrderBy(t => t.DueDate)
                 .ToList();
@@ -38,7 +38,7 @@ namespace WorkToDo.Controllers
                 Categories = _context.Category.ToList()
             };
 
-            return View();
+            return View(dto);
         }
 
         // POST: Assignments/Create
@@ -61,27 +61,27 @@ namespace WorkToDo.Controllers
                     return View(dto);
                 }
 
-                var assignment = new Assignment
+                var assignment = new Models.WorkItem
                 {
                     Title = dto.Title,
                     Description = dto.Description,
                     DueDate = dto.DueDate,
                     Priority = priority, // Map to enum
                     IsCompleted = false, // Default value
-                    AssignedTo = dto.AssignedTo,
+                    //AssignedTo = dto.AssignedTo,
                     CategoryId = dto.CategoryId
                 };
 
-                _context.Assignment.Add(assignment);
+                _context.WorkItem.Add(assignment);
                 _context.SaveChanges();
-                return RedirectToAction(nameof(Details), new { id = assignment.TaskId });
+                return RedirectToAction(nameof(Details), new { id = assignment.WorkItemId });
             }
             return View(dto);
         }
 
         public IActionResult Details(int id)
         {
-            var assignment = _context.Assignment.FirstOrDefault(a => a.TaskId == id);
+            var assignment = _context.WorkItem.FirstOrDefault(a => a.WorkItemId == id);
             if (assignment == null)
             {
                 return NotFound();
@@ -98,8 +98,8 @@ namespace WorkToDo.Controllers
                 return BadRequest();
             }
 
-            var assignment = await _context.Assignment.FindAsync(id);
-            if (assignment == null)
+            var workItem = await _context.WorkItem.FindAsync(id);
+            if (workItem == null)
             {
                 return NotFound();
             }
@@ -107,12 +107,12 @@ namespace WorkToDo.Controllers
             // Map to a DTO
             var editDto = new EditAssignmentDTO
             {
-                TaskId = assignment.TaskId,
-                Title = assignment.Title,
-                Description = assignment.Description,
-                DueDate = assignment.DueDate,
-                Priority = assignment.Priority.ToString(),
-                AssignedTo = assignment.AssignedTo,
+                WorkItemId = workItem.WorkItemId,
+                Title = workItem.Title,
+                Description = workItem.Description,
+                DueDate = workItem.DueDate,
+                Priority = workItem.Priority.ToString(),
+                //AssignedTo = assignment.AssignedTo,
                 //CategoryId = assignment.CategoryId
             };
 
@@ -127,7 +127,7 @@ namespace WorkToDo.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, EditAssignmentDTO dto)
         {
-            if (id != dto.TaskId)
+            if (id != dto.WorkItemId)
             {
                 return BadRequest();
             }
@@ -136,7 +136,7 @@ namespace WorkToDo.Controllers
             {
                 try
                 {
-                    var assignment = await _context.Assignment.FindAsync(id);
+                    var assignment = await _context.WorkItem.FindAsync(id);
                     if (assignment == null)
                     {
                         return NotFound();
@@ -156,7 +156,7 @@ namespace WorkToDo.Controllers
                     assignment.Description = dto.Description;
                     assignment.DueDate = dto.DueDate;
                     assignment.Priority = priority;
-                    assignment.AssignedTo = dto.AssignedTo;
+                    //assignment.AssignedTo = dto.AssignedTo;
                     //assignment.CategoryId = dto.CategoryId;
 
                     _context.Update(assignment);
@@ -164,7 +164,7 @@ namespace WorkToDo.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!AssignmentExists(dto.TaskId))
+                    if (!AssignmentExists(dto.WorkItemId))
                     {
                         return NotFound();
                     }
@@ -173,7 +173,7 @@ namespace WorkToDo.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Details), new { id = dto.TaskId });
+                return RedirectToAction(nameof(Details), new { id = dto.WorkItemId });
             }
 
             // If model state is invalid, repopulate categories
@@ -185,7 +185,7 @@ namespace WorkToDo.Controllers
         // Helper method to check if Assignment exists
         private bool AssignmentExists(int id)
         {
-            return _context.Assignment.Any(e => e.TaskId == id);
+            return _context.WorkItem.Any(e => e.WorkItemId == id);
         }
 
         // GET: Assignment/Delete/5
@@ -196,8 +196,8 @@ namespace WorkToDo.Controllers
                 return BadRequest();
             }
 
-            var assignment = await _context.Assignment
-                .FirstOrDefaultAsync(m => m.TaskId == id);
+            var assignment = await _context.WorkItem
+                .FirstOrDefaultAsync(m => m.WorkItemId == id);
 
             if (assignment == null)
             {
@@ -213,10 +213,10 @@ namespace WorkToDo.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var assignment = await _context.Assignment.FindAsync(id);
+            var assignment = await _context.WorkItem.FindAsync(id);
             if (assignment != null)
             {
-                _context.Assignment.Remove(assignment);
+                _context.WorkItem.Remove(assignment);
                 await _context.SaveChangesAsync();
             }
 

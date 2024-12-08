@@ -5,7 +5,7 @@ namespace WorkToDo.DTO
     public class EditAssignmentDTO
     {
         [Required]
-        public int TaskId { get; set; } // Primary Key
+        public int WorkItemId { get; set; } // Primary Key
 
         [Required]
         public string Title { get; set; }
@@ -15,7 +15,7 @@ namespace WorkToDo.DTO
         public string Description { get; set; }
 
         [Required]
-        public DateTime DueDate { get; set; }
+        public DateTime? DueDate { get; set; }
 
         [Required]
         public string Priority { get; set; }

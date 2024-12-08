@@ -28,7 +28,7 @@ namespace WorkToDo.DTO
         [Required]
         public int CategoryId { get; set; }
 
-        public IEnumerable<Category> Categories { get; set; } // Add categories here
+        public IEnumerable<Category> Categories { get; set; }// Add categories here
     }
 
 }

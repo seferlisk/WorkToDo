@@ -1,4 +1,4 @@
-﻿@model IEnumerable<WorkToDo.Models.Assignment>
+﻿@model IEnumerable<WorkToDo.Models.WorkItem>
 @{
     ViewData["Title"] = "My Assignments";
 }
@@ -37,16 +37,16 @@
                                 }
                             </p>
                             <p class="text-secondary small">
-                                <strong>Due:</strong> @task.DueDate.ToString("MMMM dd, yyyy")<br />
+                                <strong>Due:</strong> @task.DueDate?.ToString("MMMM dd, yyyy")<br />
                                 <strong>Priority:</strong> @task.Priority
                             </p>
                             <p class="badge @((task.IsCompleted ? "bg-success" : "bg-warning text-dark"))">
                                 @(task.IsCompleted ? "Completed" : "Pending")
                             </p>
                             <div class="d-flex justify-content-between mt-3">
-                                <a asp-action="Details" asp-route-id="@task.TaskId" class="btn btn-outline-primary btn-sm">View</a>
-                                <a asp-action="Edit" asp-route-id="@task.TaskId" class="btn btn-outline-secondary btn-sm">Edit</a>
-                                <a asp-action="Delete" asp-route-id="@task.TaskId" class="btn btn-outline-danger btn-sm">Delete</a>
+                                <a asp-action="Details" asp-route-id="@task.WorkItemId" class="btn btn-outline-primary btn-sm">View</a>
+                                <a asp-action="Edit" asp-route-id="@task.WorkItemId" class="btn btn-outline-secondary btn-sm">Edit</a>
+                                <a asp-action="Delete" asp-route-id="@task.WorkItemId" class="btn btn-outline-danger btn-sm">Delete</a>
                             </div>
                         </div>
                     </div>

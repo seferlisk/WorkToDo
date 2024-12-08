@@ -1,4 +1,4 @@
-﻿@model IEnumerable<WorkToDo.Models.Assignment>
+﻿@model IEnumerable<WorkToDo.Models.WorkItem>
 @using WorkToDo.Models
 
 <div class="container-fluid p-5 bg-light text-center">
@@ -36,16 +36,16 @@
                 {
                     <tr class="@(assignment.Priority == PriorityLevel.Urgent ? "table-danger fw-bold" : "")">
                         <td>@assignment.Title</td>
-                        <td>@assignment.DueDate.ToString("MMMM dd, yyyy")</td>
+                        <td>@assignment.DueDate?.ToString("MMMM dd, yyyy")</td>
                         <td>@assignment.Priority</td>
                         <td class="text-end">
-                            <a asp-action="Details" asp-route-id="@assignment.TaskId" class="btn btn-primary btn-sm me-1 shadow-sm">
+                            <a asp-action="Details" asp-route-id="@assignment.WorkItemId" class="btn btn-primary btn-sm me-1 shadow-sm">
                                 <i class="bi bi-eye"></i> Details
                             </a>
-                            <a asp-action="Edit" asp-route-id="@assignment.TaskId" class="btn btn-warning btn-sm me-1 shadow-sm">
+                            <a asp-action="Edit" asp-route-id="@assignment.WorkItemId" class="btn btn-warning btn-sm me-1 shadow-sm">
                                 <i class="bi bi-pencil-square"></i> Edit
                             </a>
-                            <a asp-action="Delete" asp-route-id="@assignment.TaskId" class="btn btn-danger btn-sm shadow-sm">
+                            <a asp-action="Delete" asp-route-id="@assignment.WorkItemId" class="btn btn-danger btn-sm shadow-sm">
                                 <i class="bi bi-trash"></i> Delete
                             </a>
                         </td>

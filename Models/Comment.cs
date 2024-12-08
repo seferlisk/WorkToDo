@@ -1,13 +1,19 @@
-﻿namespace WorkToDo.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace WorkToDo.Models
 {
     public class Comment
     {
         public int CommentId { get; set; }
-        public string Content { get; set; }
+        public string? Content { get; set; }
         public DateTime CreatedAt { get; set; }
-        public int TaskId { get; set; } // Foreign key for Task
-        public Assignment Task { get; set; }
-        public string Id { get; set; } // Foreign key for User
+
+
+        public int? WorkItemId { get; set; }
+        public WorkItem? WorkItem { get; set; }
+
+
+        public string UserId { get; set; }
         public ApplicationUser User { get; set; }
     }
 

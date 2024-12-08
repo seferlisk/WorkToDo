@@ -9,11 +9,11 @@ using WorkToDo.Data;
 
 #nullable disable
 
-namespace WorkToDo.Data.Migrations
+namespace WorkToDo.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241207064140_SeedCategories")]
-    partial class SeedCategories
+    [Migration("20241208152713_Added_user_to_comments")]
+    partial class Added_user_to_comments
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -227,56 +227,6 @@ namespace WorkToDo.Data.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("WorkToDo.Models.Assignment", b =>
-                {
-                    b.Property<int>("TaskId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TaskId"));
-
-                    b.Property<string>("ApplicationUserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("AssignedTo")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("CategoryId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
-                    b.Property<DateTime>("DueDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsCompleted")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("Priority")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("ProjectId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("TaskId");
-
-                    b.HasIndex("ApplicationUserId");
-
-                    b.HasIndex("CategoryId");
-
-                    b.HasIndex("ProjectId");
-
-                    b.ToTable("Assignment");
-                });
-
             modelBuilder.Entity("WorkToDo.Models.Category", b =>
                 {
                     b.Property<int>("CategoryId")
@@ -286,7 +236,6 @@ namespace WorkToDo.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CategoryId"));
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
@@ -296,73 +245,81 @@ namespace WorkToDo.Data.Migrations
                     b.HasKey("CategoryId");
 
                     b.ToTable("Category");
-
-                    b.HasData(
-                        new
-                        {
-                            CategoryId = 1,
-                            Description = "Work Description",
-                            Name = "Work"
-                        },
-                        new
-                        {
-                            CategoryId = 2,
-                            Description = "Personal Description",
-                            Name = "Personal"
-                        });
                 });
 
             modelBuilder.Entity("WorkToDo.Models.Comment", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<int>("CommentId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CommentId"));
+
                     b.Property<string>("Content")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("TaskId")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
-                    b.Property<string>("UserId")
+                    b.Property<string>("UserId1")
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("Id");
+                    b.Property<int?>("WorkItemId")
+                        .HasColumnType("int");
 
-                    b.HasIndex("TaskId");
+                    b.HasKey("CommentId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId1");
+
+                    b.HasIndex("WorkItemId");
 
                     b.ToTable("Comment");
                 });
 
-            modelBuilder.Entity("WorkToDo.Models.Project", b =>
+            modelBuilder.Entity("WorkToDo.Models.WorkItem", b =>
                 {
-                    b.Property<int>("ProjectId")
+                    b.Property<int>("WorkItemId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProjectId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("WorkItemId"));
 
-                    b.Property<DateTime>("EndDate")
+                    b.Property<int?>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<DateTime?>("DueDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("ProjectName")
+                    b.Property<bool>("IsCompleted")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("Priority")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("datetime2");
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
 
-                    b.HasKey("ProjectId");
+                    b.Property<string>("UserId1")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.ToTable("Project");
+                    b.HasKey("WorkItemId");
+
+                    b.HasIndex("CategoryId");
+
+                    b.HasIndex("UserId1");
+
+                    b.ToTable("WorkItem");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -416,53 +373,51 @@ namespace WorkToDo.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("WorkToDo.Models.Assignment", b =>
-                {
-                    b.HasOne("WorkToDo.Models.ApplicationUser", null)
-                        .WithMany("AssignedTasks")
-                        .HasForeignKey("ApplicationUserId");
-
-                    b.HasOne("WorkToDo.Models.Category", "Category")
-                        .WithMany("Assignments")
-                        .HasForeignKey("CategoryId");
-
-                    b.HasOne("WorkToDo.Models.Project", null)
-                        .WithMany("Tasks")
-                        .HasForeignKey("ProjectId");
-
-                    b.Navigation("Category");
-                });
-
             modelBuilder.Entity("WorkToDo.Models.Comment", b =>
                 {
-                    b.HasOne("WorkToDo.Models.Assignment", "Task")
-                        .WithMany()
-                        .HasForeignKey("TaskId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("WorkToDo.Models.ApplicationUser", "User")
+                        .WithMany("Comments")
+                        .HasForeignKey("UserId1");
+
+                    b.HasOne("WorkToDo.Models.WorkItem", "WorkItem")
+                        .WithMany("Comments")
+                        .HasForeignKey("WorkItemId");
+
+                    b.Navigation("User");
+
+                    b.Navigation("WorkItem");
+                });
+
+            modelBuilder.Entity("WorkToDo.Models.WorkItem", b =>
+                {
+                    b.HasOne("WorkToDo.Models.Category", "Category")
+                        .WithMany("WorkItems")
+                        .HasForeignKey("CategoryId");
 
                     b.HasOne("WorkToDo.Models.ApplicationUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
+                        .WithMany("Tasks")
+                        .HasForeignKey("UserId1");
 
-                    b.Navigation("Task");
+                    b.Navigation("Category");
 
                     b.Navigation("User");
                 });
 
             modelBuilder.Entity("WorkToDo.Models.ApplicationUser", b =>
                 {
-                    b.Navigation("AssignedTasks");
+                    b.Navigation("Comments");
+
+                    b.Navigation("Tasks");
                 });
 
             modelBuilder.Entity("WorkToDo.Models.Category", b =>
                 {
-                    b.Navigation("Assignments");
+                    b.Navigation("WorkItems");
                 });
 
-            modelBuilder.Entity("WorkToDo.Models.Project", b =>
+            modelBuilder.Entity("WorkToDo.Models.WorkItem", b =>
                 {
-                    b.Navigation("Tasks");
+                    b.Navigation("Comments");
                 });
 #pragma warning restore 612, 618
         }

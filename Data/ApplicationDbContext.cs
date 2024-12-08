@@ -13,23 +13,29 @@ namespace WorkToDo.Data
 
         public DbSet<Category> Category { get; set; }
         public DbSet<Comment> Comment { get; set; }
-        public DbSet<Project> Project { get; set; }
-        public DbSet<Assignment> Assignment { get; set; }
-        //public DbSet<ApplicationUser> User { get; set; }
+        public DbSet<WorkItem> WorkItem { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<Assignment>(entity =>
-            {
-                entity.HasKey(e => e.TaskId); // Explicitly set TaskId as the primary key
-            });
+            // Configure reverse navigation properties
+            modelBuilder.Entity<Comment>()
+                .HasOne(c => c.WorkItem)
+                .WithMany(w => w.Comments)
+                .HasForeignKey(c => c.WorkItemId);
 
-            modelBuilder.Entity<Category>().HasData(
-                new Category { CategoryId = 1, Name = "Work", Description = "Work Description" },
-                new Category { CategoryId = 2, Name = "Personal", Description = "Personal Description" }
-            );
+
+            modelBuilder.Entity<WorkItem>()
+                .HasOne(w => w.Category)
+                .WithMany(c => c.WorkItems)
+                .HasForeignKey(w => w.CategoryId);
+
+            modelBuilder.Entity<Comment>()
+                .HasOne(w => w.User)
+                .WithMany(c => c.Comments)
+                .HasForeignKey(w => w.UserId);
         }
 
     }

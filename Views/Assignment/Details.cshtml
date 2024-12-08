@@ -1,4 +1,4 @@
-﻿@model WorkToDo.Models.Assignment
+﻿@model WorkToDo.Models.WorkItem
 
 @{
     ViewData["Title"] = "Assignment Details";
@@ -24,7 +24,7 @@
             <h5 class="card-title">Details</h5>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">
-                    <strong>Due Date:</strong> @Model.DueDate.ToString("MMMM dd, yyyy")
+                    <strong>Due Date:</strong> @Model.DueDate?.ToString("MMMM dd, yyyy")
                 </li>
                 <li class="list-group-item">
                     <strong>Priority:</strong> @Model.Priority
@@ -33,7 +33,7 @@
                     <strong>Status:</strong> @(Model.IsCompleted ? "Completed" : "Incomplete")
                 </li>
                 <li class="list-group-item">
-                    <strong>Assigned To:</strong> @Model.AssignedTo
+                    <strong>Assigned To:</strong> @Model.User
                 </li>
                @*  <li class="list-group-item">
                     <strong>Category:</strong> @Model.Category?.Name
@@ -41,7 +41,7 @@
             </ul>
         </div>
         <div class="card-footer text-end">
-            <a asp-action="Edit" asp-route-id="@Model.TaskId" class="btn btn-outline-secondary">Edit</a>
+            <a asp-action="Edit" asp-route-id="@Model.WorkItemId" class="btn btn-outline-secondary">Edit</a>
             <a asp-action="Index" class="btn btn-primary">Back to List</a>
         </div>
     </div>
