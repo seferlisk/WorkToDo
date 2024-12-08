@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using WorkToDo.Helper;
+using WorkToDo.Models;
 
 
 namespace WorkToDo.DTO
@@ -26,6 +27,8 @@ namespace WorkToDo.DTO
 
         [Required]
         public int CategoryId { get; set; }
+
+        public IEnumerable<Category> Categories { get; set; } // Add categories here
     }
 
 }

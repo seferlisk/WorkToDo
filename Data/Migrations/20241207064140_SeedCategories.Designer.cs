@@ -12,7 +12,7 @@ using WorkToDo.Data;
 namespace WorkToDo.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241205071615_SeedCategories")]
+    [Migration("20241207064140_SeedCategories")]
     partial class SeedCategories
     {
         /// <inheritdoc />

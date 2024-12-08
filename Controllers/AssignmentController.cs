@@ -33,12 +33,10 @@ namespace WorkToDo.Controllers
         // GET: Assignments/Create
         public IActionResult Create()
         {
-            ViewBag.Categories = _context.Category.Select(c => new
+            var dto = new CreateAssignmentDto
             {
-                c.CategoryId,
-                c.Name,
-                c.Description // Assuming Description exists in the Category model
-            }).ToList();
+                Categories = _context.Category.ToList()
+            };
 
             return View();
         }
