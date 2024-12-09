@@ -1,0 +1,77 @@
+﻿@model WorkToDo.Models.Category
+
+<div class="container-fluid p-5 bg-light text-center">
+    <!-- Header Section -->
+    <header>
+        <h1 class="display-3 font-weight-bold text-primary">Edit a Category</h1>        
+    </header>
+</div>
+
+<div class="container mt-5">
+    <h1 class="text-primary text-center">Edit Category</h1>
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-lg p-4">
+                <form asp-action="Edit" method="post">
+                    <!-- Hidden Field for Category ID -->
+                    <input type="hidden" asp-for="CategoryId" />
+
+                    <!-- Name Field -->
+                    <div class="form-floating mb-3">
+                        <input asp-for="Name" class="form-control" placeholder="Enter category name" />
+                        <label asp-for="Name">Category Name</label>
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+
+                    <!-- Description Field -->
+                    <div class="form-floating mb-3">
+                        <textarea asp-for="Description" class="form-control" placeholder="Enter description" style="height: 100px;"></textarea>
+                        <label asp-for="Description">Description</label>
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary btn-lg shadow">Save Changes</button>
+                        <a asp-action="Index" class="btn btn-outline-secondary btn-lg shadow">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
+<!-- Styling -->
+<style>
+    .container-fluid {
+        background: linear-gradient(135deg, #6a11cb, #2575fc);
+        color: white;
+    }
+
+    .display-3 {
+        font-size: 3.5rem;
+    }
+
+    .lead {
+        font-size: 1.4rem;
+        font-weight: 300;
+    }
+
+    .btn-primary, .btn-outline-secondary {
+        padding: 0.75rem 1.5rem;
+        font-size: 1.2rem;
+    }
+
+    .form-floating label {
+        font-weight: 500;
+    }
+
+    #categoryDescription {
+        font-size: 1rem;
+        font-style: italic;
+    }
+</style>

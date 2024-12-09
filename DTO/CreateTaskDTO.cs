@@ -6,7 +6,7 @@ using WorkToDo.Models;
 
 namespace WorkToDo.DTO
 {
-    public class CreateAssignmentDto
+    public class CreateTaskDTO
     {
         [Required]
         public string Title { get; set; }

@@ -8,11 +8,11 @@ using WorkToDo.DTO;
 
 namespace WorkToDo.Controllers
 {
-    public class AssignmentController : Controller
+    public class TaskController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public AssignmentController(ApplicationDbContext context)
+        public TaskController(ApplicationDbContext context)
         {
             _context = context;
         }
@@ -30,10 +30,10 @@ namespace WorkToDo.Controllers
             return View(tasks);
         }
 
-        // GET: Assignments/Create
+        // GET: Task/Create
         public IActionResult Create()
         {
-            var dto = new CreateAssignmentDto
+            var dto = new CreateTaskDTO
             {
                 Categories = _context.Category.ToList()
             };
@@ -41,10 +41,10 @@ namespace WorkToDo.Controllers
             return View(dto);
         }
 
-        // POST: Assignments/Create
+        // POST: Task/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(CreateAssignmentDto dto)
+        public IActionResult Create(CreateTaskDTO dto)
         {
             if (!ModelState.IsValid)
             {
@@ -90,7 +90,7 @@ namespace WorkToDo.Controllers
             return View(assignment);
         }
 
-        // GET: Assignment/Edit/5
+        // GET: Task/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -105,7 +105,7 @@ namespace WorkToDo.Controllers
             }
 
             // Map to a DTO
-            var editDto = new EditAssignmentDTO
+            var editDto = new EditTaskDTO
             {
                 WorkItemId = workItem.WorkItemId,
                 Title = workItem.Title,
@@ -122,10 +122,10 @@ namespace WorkToDo.Controllers
             return View(editDto);
         }
 
-        // POST: Assignment/Edit/5
+        // POST: Task/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, EditAssignmentDTO dto)
+        public async Task<IActionResult> Edit(int id, EditTaskDTO dto)
         {
             if (id != dto.WorkItemId)
             {
@@ -188,7 +188,7 @@ namespace WorkToDo.Controllers
             return _context.WorkItem.Any(e => e.WorkItemId == id);
         }
 
-        // GET: Assignment/Delete/5
+        // GET: Task/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -208,7 +208,7 @@ namespace WorkToDo.Controllers
         }
 
 
-        // POST: Assignment/Delete/5
+        // POST: Task/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

@@ -1,0 +1,60 @@
+﻿@model WorkToDo.Models.Category
+
+<div class="container-fluid p-5 bg-light text-center">
+    <!-- Header Section -->
+    <header>
+        <h1 class="display-3 font-weight-bold text-primary">Delete a Category</h1>
+    </header>
+</div>
+
+<div class="container mt-5">
+    <h1 class="text-primary text-center">Category Details</h1>
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-lg p-4">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><strong>Category ID:</strong> @Model.CategoryId</li>
+                    <li class="list-group-item"><strong>Name:</strong> @Model.Name</li>
+                    <li class="list-group-item"><strong>Description:</strong> @Model.Description</li>
+                </ul>
+
+                <div class="text-center mt-4">
+                    <a asp-action="Edit" asp-route-id="@Model.CategoryId" class="btn btn-warning btn-lg shadow">Edit</a>
+                    <a asp-action="Delete" asp-route-id="@Model.CategoryId" class="btn btn-danger btn-lg shadow">Delete</a>
+                    <a asp-action="Index" class="btn btn-outline-secondary btn-lg shadow">Back to List</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Styling -->
+<style>
+    .container-fluid {
+        background: linear-gradient(135deg, #6a11cb, #2575fc);
+        color: white;
+    }
+
+    .display-3 {
+        font-size: 3.5rem;
+    }
+
+    .lead {
+        font-size: 1.4rem;
+        font-weight: 300;
+    }
+
+    .btn-primary, .btn-outline-secondary {
+        padding: 0.75rem 1.5rem;
+        font-size: 1.2rem;
+    }
+
+    .form-floating label {
+        font-weight: 500;
+    }
+
+    #categoryDescription {
+        font-size: 1rem;
+        font-style: italic;
+    }
+</style>

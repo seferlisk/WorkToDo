@@ -2,7 +2,7 @@
 
 namespace WorkToDo.DTO
 {
-    public class EditAssignmentDTO
+    public class EditTaskDTO
     {
         [Required]
         public int WorkItemId { get; set; } // Primary Key
