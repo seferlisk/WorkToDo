@@ -81,13 +81,17 @@ namespace WorkToDo.Controllers
 
         public IActionResult Details(int id)
         {
-            var assignment = _context.WorkItem.FirstOrDefault(a => a.WorkItemId == id);
-            if (assignment == null)
+            var workItem = _context.WorkItem
+        .Include(w => w.Comments)
+        .ThenInclude(c => c.User)
+        .FirstOrDefault(w => w.WorkItemId == id);
+
+            if (workItem == null)
             {
                 return NotFound();
             }
 
-            return View(assignment);
+            return View(workItem);
         }
 
         // GET: Task/Edit/5

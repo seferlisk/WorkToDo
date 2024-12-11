@@ -37,19 +37,19 @@ namespace WorkToDo.Data
                 .WithMany(c => c.Comments)
                 .HasForeignKey(w => w.UserId);
 
-            modelBuilder.Entity<Comment>(entity =>
-            {
-                entity.HasKey(e => e.CommentId); // Primary Key
-                entity.HasOne(e => e.WorkItem)   // Relationship with WorkItem
-                      .WithMany(w => w.Comments) // Assuming `WorkItem` has `ICollection<Comment>`
-                      .HasForeignKey(e => e.WorkItemId)
-                      .OnDelete(DeleteBehavior.Cascade);
+            //modelBuilder.Entity<Comment>(entity =>
+            //{
+            //    entity.HasKey(e => e.CommentId); // Primary Key
+            //    entity.HasOne(e => e.WorkItem)   // Relationship with WorkItem
+            //          .WithMany(w => w.Comments) // Assuming `WorkItem` has `ICollection<Comment>`
+            //          .HasForeignKey(e => e.WorkItemId)
+            //          .OnDelete(DeleteBehavior.Cascade);
 
-                entity.HasOne(e => e.User)       // Relationship with User
-                      .WithMany()                // Adjust if User has a collection of Comments
-                      .HasForeignKey(e => e.UserId)
-                      .OnDelete(DeleteBehavior.Cascade);
-            });
+            //    entity.HasOne(e => e.User)       // Relationship with User
+            //          .WithMany()                // Adjust if User has a collection of Comments
+            //          .HasForeignKey(e => e.UserId)
+            //          .OnDelete(DeleteBehavior.Cascade);
+            //});
         }
 
     }
