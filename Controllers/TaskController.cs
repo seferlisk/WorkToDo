@@ -3,18 +3,19 @@ using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using WorkToDo.Models;
 using WorkToDo.Data;
-using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.Blazor;
+using System.Threading.Tasks;
 using WorkToDo.DTO;
+using WorkToDo.Services;
 
 namespace WorkToDo.Controllers
 {
     public class TaskController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly TaskService _taskService;
 
-        public TaskController(ApplicationDbContext context)
+        public TaskController(TaskService taskService)
         {
-            _context = context;
+            _taskService = taskService;
         }
 
         // GET: Assignment
@@ -22,10 +23,8 @@ namespace WorkToDo.Controllers
         {
             // Retrieve all tasks assigned to the logged-in user
             var userId = User.Identity?.Name; // Assuming "Name" is the username or email
-            var tasks = _context.WorkItem
-                //.Where(t => t.AssignedTo == userId)
-                .OrderBy(t => t.DueDate)
-                .ToList();
+
+            var tasks = _taskService.GetAllTasksForUser(userId);
 
             return View(tasks);
         }
@@ -35,7 +34,7 @@ namespace WorkToDo.Controllers
         {
             var dto = new CreateTaskDTO
             {
-                Categories = _context.Category.ToList()
+                Categories = _taskService.GetAllCategories()
             };
 
             return View(dto);
@@ -48,7 +47,7 @@ namespace WorkToDo.Controllers
         {
             if (!ModelState.IsValid)
             {
-                ViewBag.Categories = _context.Category.ToList(); // Reload categories if validation fails
+                dto.Categories = _taskService.GetAllCategories(); // Reload categories if validation fails
                 return View(dto); // Return the view with validation errors
             }
 
@@ -58,10 +57,11 @@ namespace WorkToDo.Controllers
                 if (!Enum.TryParse(dto.Priority, out PriorityLevel priority))
                 {
                     ModelState.AddModelError("Priority", "Invalid priority level.");
+                    dto.Categories = _taskService.GetAllCategories();
                     return View(dto);
                 }
 
-                var assignment = new Models.WorkItem
+                var task = new WorkItem
                 {
                     Title = dto.Title,
                     Description = dto.Description,
@@ -72,26 +72,20 @@ namespace WorkToDo.Controllers
                     CategoryId = dto.CategoryId
                 };
 
-                _context.WorkItem.Add(assignment);
-                _context.SaveChanges();
-                return RedirectToAction(nameof(Details), new { id = assignment.WorkItemId });
+                _taskService.CreateTask(task);
+                return RedirectToAction(nameof(Details), new { id = task.WorkItemId });
             }
             return View(dto);
         }
 
         public IActionResult Details(int id)
         {
-            var workItem = _context.WorkItem
-        .Include(w => w.Comments)
-        .ThenInclude(c => c.User)
-        .FirstOrDefault(w => w.WorkItemId == id);
-
-            if (workItem == null)
+            var task = _taskService.GetTaskDetails(id);
+            if (task == null)
             {
                 return NotFound();
             }
-
-            return View(workItem);
+            return View(task);
         }
 
         // GET: Task/Edit/5
@@ -102,26 +96,21 @@ namespace WorkToDo.Controllers
                 return BadRequest();
             }
 
-            var workItem = await _context.WorkItem.FindAsync(id);
-            if (workItem == null)
-            {
+            var task = await _taskService.GetTaskByIdAsync(id.Value);
+            if (task == null)
                 return NotFound();
-            }
 
             // Map to a DTO
             var editDto = new EditTaskDTO
             {
-                WorkItemId = workItem.WorkItemId,
-                Title = workItem.Title,
-                Description = workItem.Description,
-                DueDate = workItem.DueDate,
-                Priority = workItem.Priority.ToString(),
+                WorkItemId = task.WorkItemId,
+                Title = task.Title,
+                Description = task.Description,
+                DueDate = task.DueDate,
+                Priority = task.Priority.ToString()
                 //AssignedTo = assignment.AssignedTo,
                 //CategoryId = assignment.CategoryId
             };
-
-            // Retrieve categories for the dropdown
-            //ViewBag.Categories = await _context.Category.ToListAsync();
 
             return View(editDto);
         }
@@ -132,65 +121,90 @@ namespace WorkToDo.Controllers
         public async Task<IActionResult> Edit(int id, EditTaskDTO dto)
         {
             if (id != dto.WorkItemId)
-            {
                 return BadRequest();
-            }
 
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
+                return View(dto);
+
+            if (!Enum.TryParse(dto.Priority, out PriorityLevel priority))
             {
-                try
-                {
-                    var assignment = await _context.WorkItem.FindAsync(id);
-                    if (assignment == null)
-                    {
-                        return NotFound();
-                    }
-
-                    // Convert Priority string to PriorityLevel enum
-                    if (!Enum.TryParse(dto.Priority, out PriorityLevel priority))
-                    {
-                        ModelState.AddModelError("Priority", "Invalid priority level.");
-                        // Repopulate categories before returning view
-                        ViewBag.Categories = await _context.Category.ToListAsync();
-                        return View(dto);
-                    }
-
-                    // Update properties
-                    assignment.Title = dto.Title;
-                    assignment.Description = dto.Description;
-                    assignment.DueDate = dto.DueDate;
-                    assignment.Priority = priority;
-                    //assignment.AssignedTo = dto.AssignedTo;
-                    //assignment.CategoryId = dto.CategoryId;
-
-                    _context.Update(assignment);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!AssignmentExists(dto.WorkItemId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Details), new { id = dto.WorkItemId });
+                ModelState.AddModelError("Priority", "Invalid priority level.");
+                return View(dto);
             }
 
-            // If model state is invalid, repopulate categories
-            //ViewBag.Categories = await _context.Category.ToListAsync();
+            var task = new WorkItem
+            {
+                WorkItemId = id,
+                Title = dto.Title,
+                Description = dto.Description,
+                DueDate = dto.DueDate,
+                Priority = priority
+            };
 
-            return View(dto);
-        }
+            var success = await _taskService.UpdateTaskAsync(task);
+            if (!success)
+            {
+                if (!_taskService.TaskExists(id))
+                    return NotFound();
 
-        // Helper method to check if Assignment exists
-        private bool AssignmentExists(int id)
-        {
-            return _context.WorkItem.Any(e => e.WorkItemId == id);
-        }
+                throw new DbUpdateConcurrencyException();
+            }
+
+            return RedirectToAction(nameof(Details), new { id = dto.WorkItemId });
+            //if (id != dto.WorkItemId)
+            //{
+            //    return BadRequest();
+            //}
+
+            //if (ModelState.IsValid)
+            //{
+            //    try
+            //    {
+            //        var assignment = await _context.WorkItem.FindAsync(id);
+            //        if (assignment == null)
+            //        {
+            //            return NotFound();
+            //        }
+
+            //        // Convert Priority string to PriorityLevel enum
+            //        if (!Enum.TryParse(dto.Priority, out PriorityLevel priority))
+            //        {
+            //            ModelState.AddModelError("Priority", "Invalid priority level.");
+            //            // Repopulate categories before returning view
+            //            ViewBag.Categories = await _context.Category.ToListAsync();
+            //            return View(dto);
+            //        }
+
+            //        // Update properties
+            //        assignment.Title = dto.Title;
+            //        assignment.Description = dto.Description;
+            //        assignment.DueDate = dto.DueDate;
+            //        assignment.Priority = priority;
+            //        //assignment.AssignedTo = dto.AssignedTo;
+            //        //assignment.CategoryId = dto.CategoryId;
+
+            //        _context.Update(assignment);
+            //        await _context.SaveChangesAsync();
+            //    }
+            //    catch (DbUpdateConcurrencyException)
+            //    {
+            //        if (!AssignmentExists(dto.WorkItemId))
+            //        {
+            //            return NotFound();
+            //        }
+            //        else
+            //        {
+            //            throw;
+            //        }
+            //    }
+            //    return RedirectToAction(nameof(Details), new { id = dto.WorkItemId });
+            //}
+
+            //// If model state is invalid, repopulate categories
+            ////ViewBag.Categories = await _context.Category.ToListAsync();
+
+            //return View(dto);
+        }        
 
         // GET: Task/Delete/5
         public async Task<IActionResult> Delete(int? id)
@@ -200,15 +214,11 @@ namespace WorkToDo.Controllers
                 return BadRequest();
             }
 
-            var assignment = await _context.WorkItem
-                .FirstOrDefaultAsync(m => m.WorkItemId == id);
-
-            if (assignment == null)
-            {
+            var task = await _taskService.GetTaskByIdAsync(id.Value);
+            if (task == null)
                 return NotFound();
-            }
 
-            return View(assignment);
+            return View(task);
         }
 
 
@@ -217,12 +227,9 @@ namespace WorkToDo.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var assignment = await _context.WorkItem.FindAsync(id);
-            if (assignment != null)
-            {
-                _context.WorkItem.Remove(assignment);
-                await _context.SaveChangesAsync();
-            }
+            var success = await _taskService.DeleteTaskAsync(id);
+            if (!success)
+                return NotFound();
 
             return RedirectToAction(nameof(Index));
         }

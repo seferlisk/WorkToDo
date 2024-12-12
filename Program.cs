@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using WorkToDo.Data;
+using WorkToDo.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,6 +27,8 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.Cookie.SecurePolicy = CookieSecurePolicy.Always; // Ensure cookies are sent over HTTPS only
     options.Cookie.SameSite = SameSiteMode.Strict; // Recommended for user session cookies
 });
+
+builder.Services.AddScoped<TaskService>();
 
 var app = builder.Build();
 
