@@ -18,6 +18,7 @@ namespace WorkToDo.DTO
         [Required]
         [DataType(DataType.Date)]
         [DateNotPast(ErrorMessage = "The due date cannot be in the past.")]
+        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
         public DateTime DueDate { get; set; }
 
         [Required]

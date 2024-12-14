@@ -34,7 +34,7 @@
 
                     <!-- Due Date -->
                     <div class="form-floating mb-3">
-                        <input asp-for="DueDate" class="form-control" type="date" />
+                        <input asp-for="DueDate" class="form-control" placeholder="Enter Due Date" />
                         <label asp-for="DueDate">Due Date</label>
                         <span asp-validation-for="DueDate" class="text-danger"></span>
                     </div>
@@ -107,8 +107,8 @@
     </script>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            flatpickr("input[type='date']", {
-                dateFormat: "d-m-Y", // Ensure the format matches your model's expectations
+            flatpickr("input[asp-for='DueDate']", {
+                dateFormat: "d-m-Y", // Flatpickr format for dd-MM-yyyy
                 defaultDate: new Date(), // Sets the default date to today
             });
         });

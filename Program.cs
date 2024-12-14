@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Globalization;
 using WorkToDo.Data;
 using WorkToDo.Services;
 
@@ -29,6 +30,12 @@ builder.Services.ConfigureApplicationCookie(options =>
 });
 
 builder.Services.AddScoped<TaskService>();
+
+// Set a consistent culture
+var cultureInfo = new CultureInfo("en-GB"); // "en-GB" for dd-MM-yyyy
+//cultureInfo.DateTimeFormat.ShortDatePattern = "dd-MM-yyyy"; // Ensure the correct format
+CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
+CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
 
 var app = builder.Build();
 
