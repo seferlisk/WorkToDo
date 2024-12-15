@@ -48,6 +48,12 @@ namespace WorkToDo.Controllers
             if (!ModelState.IsValid)
             {
                 dto.Categories = _taskService.GetAllCategories(); // Reload categories if validation fails
+
+                foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
+                {
+                    Console.WriteLine(error.ErrorMessage); // Log errors for debugging
+                }
+
                 return View(dto); // Return the view with validation errors
             }
 
