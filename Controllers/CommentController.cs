@@ -1,17 +1,17 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
-using WorkToDo.Data;
 using WorkToDo.Models;
+using WorkToDo.Services;
 
 namespace WorkToDo.Controllers
 {
     public class CommentController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly CommentService _commentService;
 
-        public CommentController(ApplicationDbContext context)
+        public CommentController(CommentService commentService)
         {
-            _context = context;
+            _commentService = commentService;
         }
 
         [HttpPost]
