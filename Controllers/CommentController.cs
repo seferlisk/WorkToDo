@@ -25,16 +25,18 @@ namespace WorkToDo.Controllers
             }
 
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // Get the logged-in user ID
-            var comment = new Comment
+            
+            try
             {
-                Content = content,
-                CreatedAt = DateTime.Now,
-                WorkItemId = workItemId,
-                UserId = userId
-            };
-
-            _context.Comment.Add(comment);
-            _context.SaveChanges();
+                // Use the CommentService to add a new comment
+                _commentService.AddComment(workItemId, content, userId);
+            }
+            catch (Exception ex)
+            {
+                // Handle unexpected errors gracefully
+                ModelState.AddModelError(string.Empty, "An error occurred while saving the comment.");
+                return RedirectToAction("Details", "WorkItem", new { id = workItemId });
+            }
 
             return RedirectToAction("Details", "WorkItem", new { id = workItemId });
         }
