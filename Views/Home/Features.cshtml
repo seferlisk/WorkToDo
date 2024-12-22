@@ -3,6 +3,107 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<div class="container-fluid bg-light text-center py-5">
+    <header>
+        <h1 class="display-4 font-weight-bold text-primary">Explore the Features</h1>
+        <p class="lead text-muted">Boost productivity and streamline your workflow with these powerful tools.</p>
+    </header>
+</div>
+
+<section class="container mt-5">
+    <div class="row text-center">
+        <!-- Feature 1 -->
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-lg h-100">
+                <div class="card-body">
+                    <i class="fas fa-tasks fa-3x text-primary mb-3"></i>
+                    <h5 class="card-title font-weight-bold">Task Management</h5>
+                    <p class="card-text text-muted">Easily organize, prioritize, and track your tasks to stay on top of your goals.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Feature 2 -->
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-lg h-100">
+                <div class="card-body">
+                    <i class="fas fa-users fa-3x text-success mb-3"></i>
+                    <h5 class="card-title font-weight-bold">Collaboration</h5>
+                    <p class="card-text text-muted">Collaborate seamlessly with your team by sharing updates and comments.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Feature 3 -->
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-lg h-100">
+                <div class="card-body">
+                    <i class="fas fa-chart-line fa-3x text-info mb-3"></i>
+                    <h5 class="card-title font-weight-bold">Analytics</h5>
+                    <p class="card-text text-muted">Gain insights into your productivity trends with advanced analytics tools.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row text-center">
+        <!-- Feature 4 -->
+        <div class="col-md-6 mb-4">
+            <div class="card shadow-lg h-100">
+                <div class="card-body">
+                    <i class="fas fa-calendar-alt fa-3x text-warning mb-3"></i>
+                    <h5 class="card-title font-weight-bold">Scheduling</h5>
+                    <p class="card-text text-muted">Plan your day with ease using a structured and intuitive schedule builder.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Feature 5 -->
+        <div class="col-md-6 mb-4">
+            <div class="card shadow-lg h-100">
+                <div class="card-body">
+                    <i class="fas fa-bell fa-3x text-danger mb-3"></i>
+                    <h5 class="card-title font-weight-bold">Notifications</h5>
+                    <p class="card-text text-muted">Stay informed with real-time notifications about deadlines and updates.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action -->
+<div class="container text-center my-5">
+    <h3 class="font-weight-bold text-dark">Ready to Boost Your Productivity?</h3>
+    <a asp-controller="Home" asp-action="Index" class="btn btn-primary btn-lg shadow mt-3">Get Started Now</a>
+</div>
+
+<!-- Additional Styling -->
+<style>
+    .card {
+        border: none;
+        transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+    .fas {
+        transition: color 0.2s ease-in-out;
+    }
+
+    .card:hover .fas {
+        color: #007bff !important;
+    }
+</style>
+
+
+@* @{
+    ViewData["Title"] = "Features";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
 <div class="container my-5">
     <!-- Header Section -->
     <header class="text-center mb-5">
@@ -92,3 +193,4 @@
         color: #6c757d;
     }
 </style>
+ *@
