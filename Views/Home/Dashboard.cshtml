@@ -1,5 +1,57 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model WorkToDo.DTO.DashboardDTO
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-12">
+            <h2>Welcome, @Model.UserName!</h2>
+            <p>Today is @DateTime.Now.ToString("dddd, MMMM dd, yyyy")</p>
+        </div>
+    </div>
+
+    <div class="row mt-3">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">To-Do Summary</h5>
+                    <p>Pending Tasks: @Model.PendingTasks</p>
+                    <p>Completed Tasks: @Model.CompletedTasks</p>
+                    <p>Overdue Tasks: @Model.OverdueTasks</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Upcoming Deadlines</h5>
+                    @if (Model.UpcomingTasks.Any())
+                    {
+                        <ul class="list-group">
+                            @foreach (var task in Model.UpcomingTasks)
+                            {
+                                <li class="list-group-item">
+                                    <strong>@task.Title</strong> - Due: @task.DueDate.ToString("MM/dd/yyyy")
+                                </li>
+                            }
+                        </ul>
+                    }
+                    else
+                    {
+                        <p>No upcoming tasks!</p>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-3">
+        <div class="col-12">
+            <a href="/Tasks/Create" class="btn btn-primary">Add New Task</a>
+            <a href="/Tasks" class="btn btn-secondary">View All Tasks</a>
+        </div>
+    </div>
+</div>
+
+<style>
+    .card {
+        margin-bottom: 1rem;
+    }
+</style>
