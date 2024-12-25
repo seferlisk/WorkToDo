@@ -28,7 +28,7 @@
                             @foreach (var task in Model.UpcomingTasks)
                             {
                                 <li class="list-group-item">
-                                    <strong>@task.Title</strong> - Due: @task.DueDate.ToString("MM/dd/yyyy")
+                                    <strong>@task.Title</strong> - Due: @(task.DueDate.HasValue ? task.DueDate.Value.ToString("MM/dd/yyyy") : "No Due Date")
                                 </li>
                             }
                         </ul>
