@@ -33,7 +33,13 @@
         </nav>
     </header>
     <div class="container">
-        <main role="main" class="pb-3">
+        <!-- Sidebar -->
+        <div>
+            @await Html.PartialAsync("_Sidebar")
+        </div>        
+
+        <!-- Main Content -->
+        <main role="main" class="content flex-grow-1" style="margin-left: 250px; padding: 20px;">
             @RenderBody()
         </main>
     </div>

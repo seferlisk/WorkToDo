@@ -1,0 +1,51 @@
+﻿<div class="sidebar bg-light shadow-lg p-3">
+    <h4 class="text-primary font-weight-bold">Quick Links</h4>
+    <ul class="nav flex-column">
+        <li class="nav-item">
+            <a class="nav-link @(ViewContext.RouteData.Values["controller"].ToString() == "Home" ? "active" : "")" href="/Home/Index">Home</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/Task/Index">Tasks</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/Category/Index">Categories</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/Assignment/Index">Assignments</a>
+        </li>
+    </ul>
+</div>
+
+<style>
+    .sidebar {
+        width: 250px;
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100%;
+        background-color: #f8f9fa; /* Light background */
+        padding: 20px;
+        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    }
+
+        .sidebar h4 {
+            margin-bottom: 20px;
+            color: #1b6ec2; /* Matches primary button color */
+        }
+
+        .sidebar .nav-link {
+            color: #0077cc; /* Matches other links */
+            margin: 5px 0;
+        }
+
+            .sidebar .nav-link:hover {
+                text-decoration: none;
+                color: #0056b3; /* Slightly darker blue on hover */
+            }
+
+            .sidebar .nav-link.active {
+                font-weight: bold;
+                color: #1b6ec2;
+            }
+
+</style>
