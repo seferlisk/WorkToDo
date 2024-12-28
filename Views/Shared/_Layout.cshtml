@@ -56,3 +56,38 @@
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
+
+<style>
+    .sidebar {
+        width: 250px;
+        position: fixed;
+        top: 56px; /* Adjust to match the height of your navbar */
+        left: 0;
+        height: calc(100% - 56px); /* Adjust height to exclude navbar */
+        background-color: #f8f9fa; /* Light background */
+        padding: 20px;
+        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+        overflow-y: auto; /* Ensure scrollability if content exceeds height */
+    }
+
+        .sidebar h4 {
+            margin-bottom: 20px;
+            color: #1b6ec2; /* Matches primary button color */
+        }
+
+        .sidebar .nav-link {
+            color: #0077cc; /* Matches other links */
+            margin: 5px 0;
+        }
+
+            .sidebar .nav-link:hover {
+                text-decoration: none;
+                color: #0056b3; /* Slightly darker blue on hover */
+            }
+
+            .sidebar .nav-link.active {
+                font-weight: bold;
+                color: #1b6ec2;
+            }
+
+</style>
