@@ -104,11 +104,15 @@ namespace WorkToDo.Controllers
         public IActionResult DeleteConfirmed(int id)
         {
             var category = _context.Category.Find(id);
-            if (category != null)
+
+            if (category == null)
             {
-                _context.Category.Remove(category);
-                _context.SaveChanges();
+                return NotFound();
             }
+
+            _context.Category.Remove(category);
+            _context.SaveChanges();
+
             return RedirectToAction(nameof(Index));
         }
     }
