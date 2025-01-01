@@ -13,21 +13,21 @@ namespace WorkToDo.DTO
 
         [Required]
         [MaxLength(500)]
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         [Required]
         [DataType(DataType.Date)]
         [DateNotPast(ErrorMessage = "The due date cannot be in the past.")]
         [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
-        public DateTime DueDate { get; set; }
+        public DateTime? DueDate { get; set; }
 
         [Required]
-        public string Priority { get; set; }
+        public PriorityLevel? Priority { get; set; }
 
-        public string AssignedTo { get; set; } = string.Empty;
+        public int? UserId { get; set; }
 
         [Required]
-        public int CategoryId { get; set; }
+        public int? CategoryId { get; set; }
 
         public IEnumerable<Category> Categories { get; set; }// Add categories here
     }
