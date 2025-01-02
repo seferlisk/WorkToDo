@@ -41,47 +41,84 @@ namespace WorkToDo.Controllers
         }
 
         // POST: Task/Create
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public IActionResult Create(CreateTaskDTO dto)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        dto.Categories = _taskService.GetAllCategories(); // Reload categories if validation fails
+
+        //        foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
+        //        {
+        //            Console.WriteLine(error.ErrorMessage); // Log errors for debugging
+        //        }
+
+        //        return View(dto); // Return the view with validation errors
+        //    }
+
+        //    if (ModelState.IsValid)
+        //    {
+        //        // Convert string to PriorityLevel enum
+        //        if (!Enum.TryParse(dto.Priority, out PriorityLevel priority))
+        //        {
+        //            ModelState.AddModelError("Priority", "Invalid priority level.");
+        //            dto.Categories = _taskService.GetAllCategories();
+        //            return View(dto);
+        //        }
+
+        //        var task = new WorkItem
+        //        {
+        //            Title = dto.Title,
+        //            Description = dto.Description,
+        //            DueDate = dto.DueDate,
+        //            Priority = priority, // Map to enum
+        //            IsCompleted = false, // Default value
+        //            UserId = dto.UserId,
+        //            CategoryId = dto.CategoryId
+        //        };
+
+        //        _taskService.CreateTask(task);
+
+        //        return RedirectToAction(nameof(Details), new { id = task.WorkItemId });
+        //    }
+        //    return View(dto);
+        //}
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create(CreateTaskDTO dto)
         {
+            // Reload categories for the dropdown in case validation fails
+            dto.Categories = _taskService.GetAllCategories();
+
+            // Validate the model
             if (!ModelState.IsValid)
             {
-                dto.Categories = _taskService.GetAllCategories(); // Reload categories if validation fails
-
                 foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
                 {
-                    Console.WriteLine(error.ErrorMessage); // Log errors for debugging
+                    Console.WriteLine(error.ErrorMessage); // Log validation errors for debugging
                 }
-
                 return View(dto); // Return the view with validation errors
             }
 
-            if (ModelState.IsValid)
+            // Map DTO to WorkItem
+            var task = new WorkItem
             {
-                // Convert string to PriorityLevel enum
-                if (!Enum.TryParse(dto.Priority, out PriorityLevel priority))
-                {
-                    ModelState.AddModelError("Priority", "Invalid priority level.");
-                    dto.Categories = _taskService.GetAllCategories();
-                    return View(dto);
-                }
+                Title = dto.Title,
+                Description = dto.Description,
+                DueDate = dto.DueDate,
+                Priority = dto.Priority, // Nullable PriorityLevel
+                IsCompleted = false, // Default value for new tasks
+                CategoryId = dto.CategoryId, // Links the task to a category
+                UserId = dto.UserId // Optional field, can be null
+            };
 
-                var task = new WorkItem
-                {
-                    Title = dto.Title,
-                    Description = dto.Description,
-                    DueDate = dto.DueDate,
-                    Priority = priority, // Map to enum
-                    IsCompleted = false, // Default value
-                    //AssignedTo = dto.AssignedTo,
-                    CategoryId = dto.CategoryId
-                };
+            // Save the new task using the service
+            _taskService.CreateTask(task);
 
-                _taskService.CreateTask(task);
-                return RedirectToAction(nameof(Details), new { id = task.WorkItemId });
-            }
-            return View(dto);
+            // Redirect to the details page of the newly created task
+            return RedirectToAction(nameof(Details), new { id = task.WorkItemId });
         }
 
         public IActionResult Details(int id)
