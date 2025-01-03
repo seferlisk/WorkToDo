@@ -15,34 +15,28 @@
 
 <style>
     .sidebar {
-        width: 250px;
-        position: fixed;
-        top: 0;
-        left: 0;
-        height: 100%;
-        background-color: #f8f9fa; /* Light background */
-        padding: 20px;
-        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+        padding: 15px;
+        background-color: #3c4754; /* Light gray background */
+        border-right: 1px solid #ddd; /* Subtle border */
     }
 
-        .sidebar h4 {
-            margin-bottom: 20px;
-            color: #1b6ec2; /* Matches primary button color */
+    .nav-link {
+        padding: 10px 15px;
+        color: #0077cc; /* Default link color */
+        border-left: 4px solid transparent; /* No border by default */
+        transition: border-color 0.3s ease, background-color 0.3s ease; /* Smooth transitions */
+    }
+
+        .nav-link:hover {
+            background-color: #e9ecef; /* Light background on hover */
+            text-decoration: none;
+            color: #0056b3; /* Slightly darker blue on hover */
         }
 
-        .sidebar .nav-link {
-            color: #0077cc; /* Matches other links */
-            margin: 5px 0;
-        }
-
-            .sidebar .nav-link:hover {
-                text-decoration: none;
-                color: #0056b3; /* Slightly darker blue on hover */
-            }
-
-            .sidebar .nav-link.active {
-                font-weight: bold;
-                color: #1b6ec2;
-            }
-
+    .active-link {
+        font-weight: bold;
+        color: #0056b3; /* Active link color */
+        border-left: 4px solid #ff9800; /* Colorful strip for active item */
+        background-color: #eaf4fc; /* Subtle background for active link */
+    }
 </style>
