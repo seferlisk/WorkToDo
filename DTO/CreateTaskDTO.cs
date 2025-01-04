@@ -24,7 +24,7 @@ namespace WorkToDo.DTO
         [Required]
         public PriorityLevel? Priority { get; set; }
 
-        public int? UserId { get; set; }
+        public string? UserId { get; set; }
 
         public int? CategoryId { get; set; }
 

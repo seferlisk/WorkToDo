@@ -41,41 +41,40 @@ namespace WorkToDo.Controllers
 
         public IActionResult Dashboard()
         {
-            // Get current user
-            var userId = User.Identity.Name; // Assuming username is unique
+            // Get the current user ID
+            var userId = User?.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
 
-            // Try to parse the userId into an integer
-            if (int.TryParse(userId, out int userIdInt))
+            if (string.IsNullOrEmpty(userId))
             {
-                // Fetch user tasks
-                var tasks = _context.WorkItem.Where(t => t.UserId == userIdInt).ToList();
-
-                // Calculate summary
-                var pendingTasks = tasks.Count(t => !t.IsCompleted && t.DueDate >= DateTime.Now);
-                var completedTasks = tasks.Count(t => t.IsCompleted);
-                var overdueTasks = tasks.Count(t => !t.IsCompleted && t.DueDate < DateTime.Now);
-
-                // Get upcoming tasks
-                var upcomingTasks = tasks
-                    .Where(t => t.DueDate >= DateTime.Now && t.DueDate <= DateTime.Now.AddDays(7))
-                    .OrderBy(t => t.DueDate)
-                    .ToList();
-
-                // Pass data to the view
-                var model = new DashboardDTO
-                {
-                    UserName = userId,
-                    PendingTasks = pendingTasks,
-                    CompletedTasks = completedTasks,
-                    OverdueTasks = overdueTasks,
-                    UpcomingTasks = upcomingTasks
-                };
-
-                return View(model);
+                // If the user is not logged in or the user ID is null
+                return View("Error");
             }
 
-            // Handle the case where userId is not a valid integer
-            return View("Error");
+            // Fetch user tasks
+            var tasks = _context.WorkItem.Where(t => t.UserId == userId).ToList();
+
+            // Calculate summary
+            var pendingTasks = tasks.Count(t => !t.IsCompleted && t.DueDate >= DateTime.Now);
+            var completedTasks = tasks.Count(t => t.IsCompleted);
+            var overdueTasks = tasks.Count(t => !t.IsCompleted && t.DueDate < DateTime.Now);
+
+            // Get upcoming tasks
+            var upcomingTasks = tasks
+                .Where(t => t.DueDate >= DateTime.Now && t.DueDate <= DateTime.Now.AddDays(7))
+                .OrderBy(t => t.DueDate)
+                .ToList();
+
+            // Pass data to the view
+            var model = new DashboardDTO
+            {
+                UserName = User.Identity.Name, // Username
+                PendingTasks = pendingTasks,
+                CompletedTasks = completedTasks,
+                OverdueTasks = overdueTasks,
+                UpcomingTasks = upcomingTasks
+            };
+
+            return View(model);
         }
     }
 }
