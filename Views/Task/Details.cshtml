@@ -53,7 +53,7 @@
                     @foreach (var comment in Model.Comments)
                     {
                         <li class="list-group-item">
-                            <strong>@comment.User.UserName</strong> (@comment.CreatedAt.ToString("g")):
+                            <strong>@comment.User.IdentityUser.UserName</strong> (@comment.CreatedAt.ToString("g")):
                             <p>@comment.Content</p>
                         </li>
                     }

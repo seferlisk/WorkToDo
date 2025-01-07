@@ -5,11 +5,11 @@ using WorkToDo.Models;
 
 namespace WorkToDo.Controllers
 {
-    public class CategoryController : Controller
+    public class CategoriesOldController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public CategoryController(ApplicationDbContext context)
+        public CategoriesOldController(ApplicationDbContext context)
         {
             _context = context;
         }
@@ -17,7 +17,7 @@ namespace WorkToDo.Controllers
         public IActionResult Index()
         {
             // Retrieve all categories from the database
-            var categories = _context.Category.ToList();
+            var categories = _context.Categories.ToList();
 
             // Pass the categories to the view
             return View(categories);
@@ -27,7 +27,7 @@ namespace WorkToDo.Controllers
         [HttpGet]
         public IActionResult Details(int id)
         {
-            var category = _context.Category.Find(id);
+            var category = _context.Categories.Find(id);
             if (category == null)
             {
                 return NotFound();
@@ -49,7 +49,7 @@ namespace WorkToDo.Controllers
             if (ModelState.IsValid)
             {
                 // Add the new category to the database
-                _context.Category.Add(category);
+                _context.Categories.Add(category);
                 _context.SaveChanges();
 
                 // Redirect to the Index action after successful creation
@@ -64,7 +64,7 @@ namespace WorkToDo.Controllers
         [HttpGet]
         public IActionResult Edit(int id)
         {
-            var category = _context.Category.Find(id);
+            var category = _context.Categories.Find(id);
             if (category == null)
             {
                 return NotFound();
@@ -79,7 +79,7 @@ namespace WorkToDo.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Category.Update(category);
+                _context.Categories.Update(category);
                 _context.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
@@ -90,7 +90,7 @@ namespace WorkToDo.Controllers
         [HttpGet]
         public IActionResult Delete(int id)
         {
-            var category = _context.Category.Find(id);
+            var category = _context.Categories.Find(id);
             if (category == null)
             {
                 return NotFound();
@@ -101,16 +101,16 @@ namespace WorkToDo.Controllers
         // POST: Delete
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult DeleteConfirmed(int id)
+        public IActionResult DeleteConfirmed(int CategoryId)
         {
-            var category = _context.Category.Find(id);
+            var category = _context.Categories.Find(CategoryId);
 
             if (category == null)
             {
                 return NotFound();
             }
 
-            _context.Category.Remove(category);
+            _context.Categories.Remove(category);
             _context.SaveChanges();
 
             return RedirectToAction(nameof(Index));

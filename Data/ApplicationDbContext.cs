@@ -12,9 +12,10 @@ namespace WorkToDo.Data
         {
         }
 
-        public DbSet<Category> Category { get; set; }
-        public DbSet<Comment> Comment { get; set; }
-        public DbSet<WorkItem> WorkItem { get; set; }
+        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Comment> Comments { get; set; }
+        public DbSet<WorkItem> WorkItems { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

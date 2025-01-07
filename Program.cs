@@ -29,6 +29,8 @@ builder.Services.ConfigureApplicationCookie(options =>
 });
 
 builder.Services.AddScoped<TaskService>();
+builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<CommentService>();
 
 // Set a consistent culture
 var cultureInfo = new CultureInfo("en-GB"); // "en-GB" for dd-MM-yyyy

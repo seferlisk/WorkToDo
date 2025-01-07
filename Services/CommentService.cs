@@ -13,7 +13,7 @@ namespace WorkToDo.Services
             _context = context;
         }
 
-        public void AddComment(int workItemId, string content, string userId)
+        public void AddComment(int workItemId, string content, int userId)
         {
             if (string.IsNullOrWhiteSpace(content))
             {
@@ -28,7 +28,7 @@ namespace WorkToDo.Services
                 UserId = userId
             };
 
-            _context.Comment.Add(comment);
+            _context.Comments.Add(comment);
             _context.SaveChanges();
         }
     }

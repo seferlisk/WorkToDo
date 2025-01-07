@@ -16,7 +16,7 @@ namespace WorkToDo.Services
 
         public List<WorkItem> GetAllTasksForUser(string userId)
         {
-            return _context.WorkItem
+            return _context.WorkItems
                 //.Where(t => t.AssignedTo == userId)
                 .OrderBy(t => t.DueDate)
                 .ToList();
@@ -24,12 +24,12 @@ namespace WorkToDo.Services
 
         public List<Category> GetAllCategories()
         {
-            return _context.Category.ToList();
+            return _context.Categories.ToList();
         }
 
         public WorkItem GetTaskDetails(int id)
         {
-            return _context.WorkItem
+            return _context.WorkItems
                 .Include(w => w.Comments)
                 .ThenInclude(c => c.User)
                 .FirstOrDefault(w => w.WorkItemId == id);
@@ -37,7 +37,7 @@ namespace WorkToDo.Services
 
         public async Task<WorkItem> GetTaskByIdAsync(int id)
         {
-            return await _context.WorkItem.FindAsync(id);
+            return await _context.WorkItems.FindAsync(id);
         }
 
         public async Task<bool> UpdateTaskAsync(WorkItem task)
@@ -56,24 +56,24 @@ namespace WorkToDo.Services
 
         public async Task<bool> DeleteTaskAsync(int id)
         {
-            var task = await _context.WorkItem.FindAsync(id);
+            var task = await _context.WorkItems.FindAsync(id);
             if (task == null)
                 return false;
 
-            _context.WorkItem.Remove(task);
+            _context.WorkItems.Remove(task);
             await _context.SaveChangesAsync();
             return true;
         }
 
         public void CreateTask(WorkItem task)
         {
-            _context.WorkItem.Add(task);
+            _context.WorkItems.Add(task);
             _context.SaveChanges();
         }
 
         public bool TaskExists(int id)
         {
-            return _context.WorkItem.Any(e => e.WorkItemId == id);
+            return _context.WorkItems.Any(e => e.WorkItemId == id);
         }
     }
 }

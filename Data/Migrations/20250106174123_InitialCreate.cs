@@ -51,7 +51,7 @@ namespace WorkToDo.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Category",
+                name: "Categories",
                 columns: table => new
                 {
                     CategoryId = table.Column<int>(type: "int", nullable: false)
@@ -61,7 +61,7 @@ namespace WorkToDo.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Category", x => x.CategoryId);
+                    table.PrimaryKey("PK_Categories", x => x.CategoryId);
                 });
 
             migrationBuilder.CreateTable(
@@ -81,6 +81,25 @@ namespace WorkToDo.Migrations
                         name: "FK_AspNetRoleClaims_AspNetRoles_RoleId",
                         column: x => x.RoleId,
                         principalTable: "AspNetRoles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ApplicationUsers",
+                columns: table => new
+                {
+                    ApplicationUserId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    IdentityUserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ApplicationUsers", x => x.ApplicationUserId);
+                    table.ForeignKey(
+                        name: "FK_ApplicationUsers_AspNetUsers_IdentityUserId",
+                        column: x => x.IdentityUserId,
+                        principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -171,7 +190,7 @@ namespace WorkToDo.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "WorkItem",
+                name: "WorkItems",
                 columns: table => new
                 {
                     WorkItemId = table.Column<int>(type: "int", nullable: false)
@@ -182,43 +201,54 @@ namespace WorkToDo.Migrations
                     IsCompleted = table.Column<bool>(type: "bit", nullable: false),
                     Priority = table.Column<int>(type: "int", nullable: true),
                     CategoryId = table.Column<int>(type: "int", nullable: true),
-                    UserId = table.Column<int>(type: "int", nullable: true),
-                    UserId1 = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    UserId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_WorkItem", x => x.WorkItemId);
+                    table.PrimaryKey("PK_WorkItems", x => x.WorkItemId);
                     table.ForeignKey(
-                        name: "FK_WorkItem_AspNetUsers_UserId1",
-                        column: x => x.UserId1,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id");
+                        name: "FK_WorkItems_ApplicationUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "ApplicationUsers",
+                        principalColumn: "ApplicationUserId");
                     table.ForeignKey(
-                        name: "FK_WorkItem_Category_CategoryId",
+                        name: "FK_WorkItems_Categories_CategoryId",
                         column: x => x.CategoryId,
-                        principalTable: "Category",
+                        principalTable: "Categories",
                         principalColumn: "CategoryId");
                 });
 
             migrationBuilder.CreateTable(
-                name: "Comment",
+                name: "Comments",
                 columns: table => new
                 {
                     CommentId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Content = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    WorkItemId = table.Column<int>(type: "int", nullable: true)
+                    WorkItemId = table.Column<int>(type: "int", nullable: true),
+                    UserId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Comment", x => x.CommentId);
+                    table.PrimaryKey("PK_Comments", x => x.CommentId);
                     table.ForeignKey(
-                        name: "FK_Comment_WorkItem_WorkItemId",
+                        name: "FK_Comments_ApplicationUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "ApplicationUsers",
+                        principalColumn: "ApplicationUserId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Comments_WorkItems_WorkItemId",
                         column: x => x.WorkItemId,
-                        principalTable: "WorkItem",
+                        principalTable: "WorkItems",
                         principalColumn: "WorkItemId");
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ApplicationUsers_IdentityUserId",
+                table: "ApplicationUsers",
+                column: "IdentityUserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -260,19 +290,24 @@ namespace WorkToDo.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Comment_WorkItemId",
-                table: "Comment",
+                name: "IX_Comments_UserId",
+                table: "Comments",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Comments_WorkItemId",
+                table: "Comments",
                 column: "WorkItemId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_WorkItem_CategoryId",
-                table: "WorkItem",
+                name: "IX_WorkItems_CategoryId",
+                table: "WorkItems",
                 column: "CategoryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_WorkItem_UserId1",
-                table: "WorkItem",
-                column: "UserId1");
+                name: "IX_WorkItems_UserId",
+                table: "WorkItems",
+                column: "UserId");
         }
 
         /// <inheritdoc />
@@ -294,19 +329,22 @@ namespace WorkToDo.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Comment");
+                name: "Comments");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "WorkItem");
+                name: "WorkItems");
+
+            migrationBuilder.DropTable(
+                name: "ApplicationUsers");
+
+            migrationBuilder.DropTable(
+                name: "Categories");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
-
-            migrationBuilder.DropTable(
-                name: "Category");
         }
     }
 }

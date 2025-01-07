@@ -8,10 +8,12 @@ namespace WorkToDo.Controllers
     public class CommentController : Controller
     {
         private readonly CommentService _commentService;
+        private readonly UserService _userService;
 
-        public CommentController(CommentService commentService)
+        public CommentController(CommentService commentService, UserService userService)
         {
             _commentService = commentService;
+            _userService = userService;
         }
 
         [HttpPost]
@@ -24,12 +26,12 @@ namespace WorkToDo.Controllers
                 return RedirectToAction("Details", "WorkItem", new { id = workItemId });
             }
 
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // Get the logged-in user ID
+            var identityUserId = User.FindFirstValue(ClaimTypes.NameIdentifier); // Get the logged-in user ID
             
             try
             {
                 // Use the CommentService to add a new comment
-                _commentService.AddComment(workItemId, content, userId);
+                _commentService.AddComment(workItemId, content, _userService.GetOrCreateApplicationUser(identityUserId).ApplicationUserId);
             }
             catch (Exception ex)
             {
