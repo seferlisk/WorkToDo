@@ -9,11 +9,11 @@ using WorkToDo.Services;
 
 namespace WorkToDo.Controllers
 {
-    public class TaskController : Controller
+    public class TasksController : Controller
     {
         private readonly TaskService _taskService;
 
-        public TaskController(TaskService taskService)
+        public TasksController(TaskService taskService)
         {
             _taskService = taskService;
         }

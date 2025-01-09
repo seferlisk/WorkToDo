@@ -5,12 +5,12 @@ using WorkToDo.Services;
 
 namespace WorkToDo.Controllers
 {
-    public class CommentController : Controller
+    public class CommentsController : Controller
     {
         private readonly CommentService _commentService;
         private readonly UserService _userService;
 
-        public CommentController(CommentService commentService, UserService userService)
+        public CommentsController(CommentService commentService, UserService userService)
         {
             _commentService = commentService;
             _userService = userService;
