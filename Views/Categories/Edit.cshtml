@@ -4,7 +4,16 @@
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
+<div class="container-fluid p-5 bg-light text-center">
+    <!-- Header Section -->
+    <header>
+        <h1 class="display-3 font-weight-bold text-primary">Categories</h1>
+        <p class="lead font-weight-light">Edit.</p>
+        <div class="mt-4">
+            @* <a asp-action="Create" class="btn btn-primary btn-lg shadow">Add New Task</a> *@
+        </div>
+    </header>
+</div>
 
 <h4>Category</h4>
 <hr />
@@ -37,3 +46,29 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+
+<!-- Styling -->
+<style>
+    .container-fluid {
+        background: linear-gradient(135deg, #6a11cb, #2575fc);
+        color: white;
+    }
+
+    .display-3 {
+        font-size: 3.5rem;
+    }
+
+    .lead {
+        font-size: 1.4rem;
+        font-weight: 300;
+    }
+
+    .btn-primary, .btn-outline-secondary {
+        padding: 0.75rem 1.5rem;
+        font-size: 1.2rem;
+    }
+
+    .form-floating label {
+        font-weight: 500;
+    }
+</style>

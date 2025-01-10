@@ -40,50 +40,50 @@ namespace WorkToDo.Controllers
             return View(dto);
         }
 
-        // POST: Task/Create
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public IActionResult Create(CreateTaskDTO dto)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        dto.Categories = _taskService.GetAllCategories(); // Reload categories if validation fails
+       // POST: Task/Create
+       //[HttpPost]
+       //[ValidateAntiForgeryToken]
+       // public IActionResult Create(CreateTaskDTO dto)
+       // {
+       //     if (!ModelState.IsValid)
+       //     {
+       //         dto.Categories = _taskService.GetAllCategories(); // Reload categories if validation fails
 
-        //        foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
-        //        {
-        //            Console.WriteLine(error.ErrorMessage); // Log errors for debugging
-        //        }
+       //         foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
+       //         {
+       //             Console.WriteLine(error.ErrorMessage); // Log errors for debugging
+       //         }
 
-        //        return View(dto); // Return the view with validation errors
-        //    }
+       //         return View(dto); // Return the view with validation errors
+       //     }
 
-        //    if (ModelState.IsValid)
-        //    {
-        //        // Convert string to PriorityLevel enum
-        //        if (!Enum.TryParse(dto.Priority, out PriorityLevel priority))
-        //        {
-        //            ModelState.AddModelError("Priority", "Invalid priority level.");
-        //            dto.Categories = _taskService.GetAllCategories();
-        //            return View(dto);
-        //        }
+       //     if (ModelState.IsValid)
+       //     {
+       //         // Convert string to PriorityLevel enum
+       //         if (!Enum.TryParse(dto.Priority, out PriorityLevel priority))
+       //         {
+       //             ModelState.AddModelError("Priority", "Invalid priority level.");
+       //             dto.Categories = _taskService.GetAllCategories();
+       //             return View(dto);
+       //         }
 
-        //        var task = new WorkItem
-        //        {
-        //            Title = dto.Title,
-        //            Description = dto.Description,
-        //            DueDate = dto.DueDate,
-        //            Priority = priority, // Map to enum
-        //            IsCompleted = false, // Default value
-        //            UserId = dto.UserId,
-        //            CategoryId = dto.CategoryId
-        //        };
+       //         var task = new WorkItem
+       //         {
+       //             Title = dto.Title,
+       //             Description = dto.Description,
+       //             DueDate = dto.DueDate,
+       //             Priority = priority, // Map to enum
+       //             IsCompleted = false, // Default value
+       //             UserId = dto.UserId,
+       //             CategoryId = dto.CategoryId
+       //         };
 
-        //        _taskService.CreateTask(task);
+       //         _taskService.CreateTask(task);
 
-        //        return RedirectToAction(nameof(Details), new { id = task.WorkItemId });
-        //    }
-        //    return View(dto);
-        //}
+       //         return RedirectToAction(nameof(Details), new { id = task.WorkItemId });
+       //     }
+       //     return View(dto);
+       // }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
