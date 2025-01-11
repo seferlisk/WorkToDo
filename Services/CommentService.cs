@@ -4,7 +4,7 @@ using WorkToDo.Models;
 
 namespace WorkToDo.Services
 {
-    public class CommentService
+    public class CommentService : ICommentService
     {
         private readonly ApplicationDbContext _context;
 

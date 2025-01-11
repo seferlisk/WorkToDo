@@ -32,6 +32,11 @@ builder.Services.AddScoped<TaskService>();
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<CommentService>();
 
+builder.Services.AddScoped<ICommentService, CommentService>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IUserContext, UserContext>();
+
+
 // Set a consistent culture
 var cultureInfo = new CultureInfo("en-GB"); // "en-GB" for dd-MM-yyyy
 //cultureInfo.DateTimeFormat.ShortDatePattern = "dd-MM-yyyy"; // Ensure the correct format
