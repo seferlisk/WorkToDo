@@ -4,22 +4,55 @@ using System.Diagnostics;
 using WorkToDo.Data;
 using WorkToDo.DTO;
 using WorkToDo.Models;
+using WorkToDo.Services;
 
 namespace WorkToDo.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IUserService _userService;
+        private readonly IUserContext _userContext;
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ApplicationDbContext context, ILogger<HomeController> logger)
+        public HomeController(ApplicationDbContext context, IUserService userService, IUserContext userContext, ILogger<HomeController> logger)
         {
             _context = context;
+            _userService = userService;
+            _userContext = userContext;
             _logger = logger;
         }
 
         public IActionResult Index()
         {
+            // Check if the user is logged in
+            if (!User.Identity.IsAuthenticated)
+            {
+                _logger.LogWarning("Unauthenticated user attempted to access Index.");
+                return Challenge(); // Redirects to the login page
+            }
+
+            try
+            {
+                // Get the current user's identity ID
+                var identityUserId = _userContext.GetCurrentUserId();
+
+                if (string.IsNullOrEmpty(identityUserId))
+                {
+                    _logger.LogError("Authenticated user has no valid identity ID.");
+                    return View("Error"); // Handle the case where user ID is null
+                }
+
+                // Ensure the user is created or associated
+                var user = _userService.GetOrCreateApplicationUser(identityUserId);
+                
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while associating the user.");
+                return View("Error"); // Redirect to an error page
+            }
+
             return View();
         }
 
