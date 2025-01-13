@@ -11,20 +11,39 @@ namespace WorkToDo.Controllers
 {
     public class TasksController : Controller
     {
-        private readonly TaskService _taskService;
+        private readonly ITaskService _taskService;
+        private readonly IUserService _userService;
+        private readonly IUserContext _userContext;
 
-        public TasksController(TaskService taskService)
+        public TasksController(ITaskService taskService, IUserService userService, IUserContext userContext)
         {
             _taskService = taskService;
+            _userService = userService;
+            _userContext = userContext;
         }
 
         // GET: Assignment
         public IActionResult Index()
         {
-            // Retrieve all tasks assigned to the logged-in user
-            var userId = User.Identity?.Name; // Assuming "Name" is the username or email
+            // Check if the user is logged in
+            if (!User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Login", "Account"); // Redirect to login page
+            }
 
-            var tasks = _taskService.GetAllTasksForUser(userId);
+            // Get the current user's identity
+            var identityUserId = _userContext.GetCurrentUserId();
+
+            if (string.IsNullOrEmpty(identityUserId))
+            {
+                return View("Error"); // Handle error gracefully
+            }
+
+            // Ensure the user exists in the system
+            var user = _userService.GetOrCreateApplicationUser(identityUserId);
+
+            // Retrieve all tasks for the logged-in user
+            var tasks = _taskService.GetAllTasksForUser(user.ApplicationUserId);
 
             return View(tasks);
         }
@@ -40,49 +59,46 @@ namespace WorkToDo.Controllers
             return View(dto);
         }
 
-       // POST: Task/Create
+       //POST: Task/Create
        //[HttpPost]
        //[ValidateAntiForgeryToken]
        // public IActionResult Create(CreateTaskDTO dto)
        // {
+       //     // Validate model state
        //     if (!ModelState.IsValid)
        //     {
        //         dto.Categories = _taskService.GetAllCategories(); // Reload categories if validation fails
-
-       //         foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
-       //         {
-       //             Console.WriteLine(error.ErrorMessage); // Log errors for debugging
-       //         }
-
-       //         return View(dto); // Return the view with validation errors
+       //         return View(dto);
        //     }
 
-       //     if (ModelState.IsValid)
+       //     // Get the current user's identity
+       //     var identityUserId = _userContext.GetCurrentUserId();
+
+       //     if (string.IsNullOrEmpty(identityUserId))
        //     {
-       //         // Convert string to PriorityLevel enum
-       //         if (!Enum.TryParse(dto.Priority, out PriorityLevel priority))
-       //         {
-       //             ModelState.AddModelError("Priority", "Invalid priority level.");
-       //             dto.Categories = _taskService.GetAllCategories();
-       //             return View(dto);
-       //         }
-
-       //         var task = new WorkItem
-       //         {
-       //             Title = dto.Title,
-       //             Description = dto.Description,
-       //             DueDate = dto.DueDate,
-       //             Priority = priority, // Map to enum
-       //             IsCompleted = false, // Default value
-       //             UserId = dto.UserId,
-       //             CategoryId = dto.CategoryId
-       //         };
-
-       //         _taskService.CreateTask(task);
-
-       //         return RedirectToAction(nameof(Details), new { id = task.WorkItemId });
+       //         return View("Error"); // Handle error gracefully
        //     }
-       //     return View(dto);
+
+       //     // Ensure the user exists in the system
+       //     var user = _userService.GetOrCreateApplicationUser(identityUserId);
+
+       //     // Map DTO to WorkItem
+       //     var task = new WorkItem
+       //     {
+       //         Title = dto.Title,
+       //         Description = dto.Description,
+       //         DueDate = dto.DueDate,
+       //         Priority = dto.Priority, // Nullable PriorityLevel
+       //         IsCompleted = false, // Default value for new tasks
+       //         CategoryId = dto.CategoryId,
+       //         UserId = user.ApplicationUserId // Associate the task with the current user
+       //     };
+
+       //     // Save the new task
+       //     _taskService.CreateTask(task);
+
+       //     // Redirect to the details page of the newly created task
+       //     return RedirectToAction(nameof(Details), new { id = task.WorkItemId });
        // }
 
         [HttpPost]

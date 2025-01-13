@@ -35,7 +35,7 @@ builder.Services.AddScoped<CommentService>();
 builder.Services.AddScoped<ICommentService, CommentService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IUserContext, UserContext>();
-
+builder.Services.AddScoped<ITaskService, TaskService>();
 
 // Set a consistent culture
 var cultureInfo = new CultureInfo("en-GB"); // "en-GB" for dd-MM-yyyy

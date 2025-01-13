@@ -5,7 +5,7 @@ using WorkToDo.Models;
 
 namespace WorkToDo.Services
 {
-    public class TaskService
+    public class TaskService : ITaskService
     {
         private readonly ApplicationDbContext _context;
 
@@ -14,7 +14,7 @@ namespace WorkToDo.Services
             _context = context;
         }
 
-        public List<WorkItem> GetAllTasksForUser(string userId)
+        public List<WorkItem> GetAllTasksForUser(int userId)
         {
             return _context.WorkItems
                 //.Where(t => t.AssignedTo == userId)
