@@ -104,7 +104,7 @@ Authentication
 Log in or register to access personalized task data.
 Tasks are linked to the currently logged-in user.
 
-Future Improvements
+#Future Improvements
 Add role-based access control (e.g., Admin and Regular Users).
 Enable task reminders via email or notifications.
 Add a mobile-friendly design with responsive layouts.
