@@ -68,24 +68,6 @@
     <a asp-controller="Categories" asp-action="Create" class="btn btn-primary btn-lg mt-4 shadow">Create a Category</a>
 </div>
 
-<div class="mb-4">
-    <button class="btn btn-primary" onclick="toggleQuickAdd()">Quick Add</button>
-    <div id="quickAddForm" style="display: none;" class="mt-3">
-        <form asp-action="Create" method="post">
-            <input type="text" name="title" class="form-control mb-2" placeholder="Note Title" required />
-            <textarea name="content" class="form-control mb-2" placeholder="Note Content"></textarea>
-            <button type="submit" class="btn btn-success">Add Note</button>
-        </form>
-    </div>
-</div>
-
-<script>
-    function toggleQuickAdd() {
-        const form = document.getElementById('quickAddForm');
-        form.style.display = form.style.display === 'none' ? 'block' : 'none';
-    }
-</script>
-
 <!-- Flashy CSS Styles -->
 <style>
     .container-fluid {
