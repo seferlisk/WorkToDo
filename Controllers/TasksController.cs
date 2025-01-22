@@ -6,6 +6,7 @@ using WorkToDo.Data;
 using System.Threading.Tasks;
 using WorkToDo.DTO;
 using WorkToDo.Services;
+using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 
 namespace WorkToDo.Controllers
 {
@@ -43,6 +44,11 @@ namespace WorkToDo.Controllers
             var user = _userService.GetOrCreateApplicationUser(identityUserId);
 
             // Retrieve all tasks for the logged-in user
+            if (user?.ApplicationUserId == null)
+            {               
+                return RedirectToAction("Error", "Home", new { message = "User ID is not available." });
+            }
+
             var tasks = _taskService.GetAllTasksForUser(user.ApplicationUserId);
 
             return View(tasks);

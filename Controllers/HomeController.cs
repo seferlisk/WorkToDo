@@ -69,8 +69,9 @@ namespace WorkToDo.Controllers
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        public IActionResult Error(string message)
         {
+            ViewBag.ErrorMessage = message;
             return View();
         }
 
