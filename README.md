@@ -31,7 +31,6 @@ ASP.NET Identity
 Dependency Injection: For services like ITaskService and IUserService.
 Logging: Microsoft.Extensions.Logging for debugging and error tracking.
 
-
 #Setup Instructions
 Prerequisites
 .NET SDK 7.0+
